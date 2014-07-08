@@ -5,6 +5,8 @@ BasicGame.Game = function (game) {
 
 BasicGame.Game.prototype = {
   // preload, create, [update, render, repeat]
+  g_WIDTH: 480,
+  g_HEIGHT: 800,
 
   preload: function() {
     // (name, imagepath)
@@ -22,7 +24,7 @@ BasicGame.Game.prototype = {
     // the order sprites are added here determines the z-order
     // (x, y, w, h, name)
     // (x, y, name)
-    this.sea = this.add.tileSprite(0, 0, 1024, 768, 'sea');
+    this.sea = this.add.tileSprite(0, 0, this.g_WIDTH, this.g_HEIGHT, 'sea');
     this.setupPlayer();
     this.setupEnemies();
     this.setupBullets();
@@ -46,9 +48,9 @@ BasicGame.Game.prototype = {
   // create-related functions
   setupPlayer: function () {
     // ## PLAYER
-    this.player = this.add.sprite(400, 650, 'player');
+    this.player = this.add.sprite(this.g_WIDTH / 2, this.g_HEIGHT - 64, 'player');
     this.player.anchor.setTo(0.5, 0.5);
-    this.player.animations.add('fly', [0, 1, 2], '20', true);
+    this.player.animations.add('fly', [0, 1, 2], 20, true);
     this.player.animations.add('ghost', [3, 0, 3, 1], 20, true);
     this.player.play('fly');
     this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
@@ -157,8 +159,8 @@ BasicGame.Game.prototype = {
   setupText: function () {
     // help text
     this.instructions = this.add.text(
-      510,
-      600,
+      this.g_WIDTH / 2,
+      this.g_HEIGHT / 2,
       "Use Arrow Keys to Move, Press Z to Fire\nTapping/clicking does both",
       {font: "20px monospace", fill: "#fff", align: "center"});
     this.instructions.anchor.setTo(0.5, 0.5);
@@ -166,7 +168,7 @@ BasicGame.Game.prototype = {
 
     this.score = 0;
     this.scoreText = this.add.text(
-      510, 30, '' + this.score, {
+      this.g_WIDTH / 2, this.instructions.height + 20, '' + this.score, {
         font: '20px monospace', fill: '#fff', align: 'center'
       });
     this.scoreText.anchor.setTo(0.5, 0.5);
@@ -228,7 +230,9 @@ BasicGame.Game.prototype = {
       this.nextEnemyAt = this.time.now + this.enemyDelay;
       var enemy = this.enemyPool.getFirstExists(false);
       // spawn at a random location at the top of the screen
-      enemy.reset(this.rnd.integerInRange(20, 1004), 0,
+      enemy.reset(
+        this.rnd.integerInRange(20, this.g_WIDTH - 20), // x
+        0,                                              // y
         this.enemyInitialHealth);
       // also randomize the speed
       enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
@@ -242,12 +246,12 @@ BasicGame.Game.prototype = {
 
       // spawn at random location at the top
       shooter.reset(
-        this.rnd.integerInRange(20, 1004), 0, this.shooterInitialHealth);
+        this.rnd.integerInRange(20, this.g_WIDTH - 20), 0, this.shooterInitialHealth);
       // choose a random target location at the bottom
-      var target = this.rnd.integerInRange(20, 1004);
+      var target = this.rnd.integerInRange(20, this.g_WIDTH - 20);
       // move to target an rotate sprite accordingly
       shooter.rotation = this.physics.arcade.moveToXY(
-        shooter, target, 768, this.rnd.integerInRange(30, 80)) - Math.PI / 2;
+        shooter, target, this.g_HEIGHT, this.rnd.integerInRange(30, 80)) - Math.PI / 2;
       shooter.play('fly');
       // each shooter has their own shot timer
       shooter.nextShotAt = 0;
@@ -317,7 +321,8 @@ BasicGame.Game.prototype = {
     }
     if (this.showReturn && this.time.now > this.showReturn) {
       this.returnText = this.add.text(
-        521, 400,
+        this.g_WIDTH / 2,
+        this.g_HEIGHT / (2/3),
         'Press Z or Tap Game to go back to Main Menu',
         {font: '16px sans-serif', fill: '#fff'});
       this.returnText.anchor.setTo(0.5, 0.5);
@@ -492,8 +497,11 @@ BasicGame.Game.prototype = {
     }
     var msg = win ? 'You Win!!!' : 'Game Over!';
     this.endText = this.add.text(
-      510, 320, msg, {font: "72px serif", fill: "#fff"});
-    this.endText.anchor.setTo(0.5, 0);
+      this.g_WIDTH / 2,
+      this.g_HEIGHT / 2,
+      msg,
+      {font: "72px serif", fill: "#fff"});
+    this.endText.anchor.setTo(0.5, 0.5);
     this.showReturn = this.time.now + 2000;
   },
 

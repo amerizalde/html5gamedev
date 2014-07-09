@@ -8,7 +8,11 @@ BasicGame.MainMenu = function (game) {
 
 BasicGame.MainMenu.prototype = {
   preload: function () {
-    this.load.image('titlepage', 'assets/titlepage.png');
+    this.load.image(
+      'titlepage',
+      'assets/titlepage.png',
+      this.game.width,
+      this.game.height);
   },
 
   create: function () {
@@ -19,10 +23,22 @@ BasicGame.MainMenu.prototype = {
 
     this.add.sprite(0, 0, 'titlepage');
 
-    this.loadingText = this.add.text(510, 520, "Press Z or tap/click game to start", { font: "24px monospace", fill: "#fff" });
+    this.loadingText = this.add.text(
+      this.game.width / 2,
+      this.game.height / 2,
+      "Press Z or tap/click game to start",
+      { font: "24px monospace", fill: "#fff" });
     this.loadingText.anchor.setTo(0.5, 0.5);
-    this.add.text(510, 680, "image assets Copyright (c) 2002 Ari Feldman", { font: "16px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
-    this.add.text(510, 700, "sound assets Copyright (c) 2012 - 2013 Devin Watson", { font: "16px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
+    this.add.text(
+      this.game.width / 2,
+      this.game.height - 64,
+      "image assets Copyright (c) 2002 Ari Feldman", 
+      { font: "16px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
+    this.add.text(
+      this.game.width / 2,
+      this.game.height - 32,
+      "sound assets Copyright (c) 2012 - 2013 Devin Watson",
+      { font: "16px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
 
   },
 

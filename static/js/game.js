@@ -21,7 +21,7 @@ BasicGame.Game.prototype = {
     // the order sprites are added here determines the z-order
     // (x, y, w, h, name)
     // (x, y, name)
-    this.sea = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'sea');
+    this.sea = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'sea');
     this.setupPlayer();
     this.setupEnemies();
     this.setupBullets();
@@ -46,7 +46,9 @@ BasicGame.Game.prototype = {
   setupPlayer: function () {
     // ## PLAYER
     this.player = this.add.sprite(
-      this.camera.width / 2, this.camera.height - 64, 'player');
+      this.game.width / 2,
+      this.game.height - 64,
+      'player');
     this.player.anchor.setTo(0.5, 0.5);
     this.player.animations.add('fly', [0, 1, 2], 20, true);
     this.player.animations.add('ghost', [3, 0, 3, 1], 20, true);
@@ -154,8 +156,8 @@ BasicGame.Game.prototype = {
   setupText: function () {
     // help text
     this.instructions = this.add.text(
-      this.camera.width / 2,
-      this.camera.height / 2 - 20,
+      this.game.width / 2,
+      this.game.height / 2 - 20,
       "Use Arrow Keys to Move, Press Z to Fire\nTapping/clicking does both",
       {font: "20px monospace", fill: "#fff", align: "center"});
     this.instructions.anchor.setTo(0.5, 0.5);
@@ -163,7 +165,7 @@ BasicGame.Game.prototype = {
 
     this.score = 0;
     this.scoreText = this.add.text(
-      this.camera.width / 2,
+      this.game.width / 2,
       30,
       '' + this.score,
       {
@@ -212,7 +214,7 @@ BasicGame.Game.prototype = {
       this.nextEnemyAt = this.time.now + this.enemyDelay;
       var enemy = this.enemyPool.getFirstExists(false);
       // spawn at a random location at the top of the screen
-      enemy.reset(this.rnd.integerInRange(20, this.camera.width - 20), 0,
+      enemy.reset(this.rnd.integerInRange(20, this.game.width - 20), 0,
         this.enemyInitialHealth);
       // also randomize the speed
       enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
@@ -226,14 +228,14 @@ BasicGame.Game.prototype = {
 
       // spawn at random location at the top
       shooter.reset(
-        this.rnd.integerInRange(20, this.camera.width - 20), 0, this.shooterInitialHealth);
+        this.rnd.integerInRange(20, this.game.width - 20), 0, this.shooterInitialHealth);
       // choose a random target location at the bottom
-      var target = this.rnd.integerInRange(20, this.camera.width - 20);
+      var target = this.rnd.integerInRange(20, this.game.width - 20);
       // move to target an rotate sprite accordingly
       shooter.rotation = this.physics.arcade.moveToXY(
         shooter,
         target,
-        this.camera.height,
+        this.game.height,
         this.rnd.integerInRange(30, 80)) - Math.PI / 2;
       shooter.play('fly');
       // each shooter has their own shot timer
@@ -304,7 +306,7 @@ BasicGame.Game.prototype = {
     }
     if (this.showReturn && this.time.now > this.showReturn) {
       this.returnText = this.add.text(
-        this.camera.width / 2, this.camera.height / 2 + 20,
+        this.game.width / 2, this.game.height / 2 + 20,
         'Press Z or Tap Game to go back to Main Menu',
         {font: '16px sans-serif', fill: '#fff'});
       this.returnText.anchor.setTo(0.5, 0.5);
@@ -431,8 +433,8 @@ BasicGame.Game.prototype = {
     }
     var msg = win ? 'You Win!!!' : 'Game Over!';
     this.endText = this.add.text(
-      this.camera.width / 2,
-      this.camera.height / 2 - 72,
+      this.game.width / 2,
+      this.game.height / 2 - 72,
       msg,
       {font: "72px serif", fill: "#fff"});
     this.endText.anchor.setTo(0.5, 0);

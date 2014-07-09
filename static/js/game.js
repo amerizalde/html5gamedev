@@ -161,7 +161,7 @@ BasicGame.Game.prototype = {
       "Use Arrow Keys to Move, Press Z to Fire\nTapping/clicking does both",
       {font: "20px monospace", fill: "#fff", align: "center"});
     this.instructions.anchor.setTo(0.5, 0.5);
-    this.instExpire = this.time.now + 10000; // the max time to show this text
+    this.instExpire = this.time.now + 5000; // the max time to show this text
 
     this.score = 0;
     this.scoreText = this.add.text(

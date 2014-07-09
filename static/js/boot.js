@@ -21,21 +21,20 @@ BasicGame.Boot.prototype = {
     //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
     // this.stage.disableVisibilityChange = true;
 
+    this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+
     if (this.game.device.android) {
       //  If you have any desktop specific settings, they can go in here
-      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      this.scale.maxHeight = 800;
+      this.scale.maxWidth = 480;
       this.scale.pageAlignHorizontally = true;
-      // this.scale.pageAlignVertically = true;
-      // this.scale.setScreenSize(true);
-      console.log("Android detected.")
+      console.log("Mobile settings used.")
     } else {
-      //  Same goes for mobile settings.
-      //  In this case we're saying "scale the game, no lower than 480x800"
-      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       this.scale.pageAlignHorizontally = true;
-      this.scale.pageAlignVertically = true;
-      console.log("Android not detected.")
+      console.log("Desktop settings used.")
     }
+
+    this.scale.setScreenSize();
 
     //  By this point the preloader assets have loaded to the cache, we've set the game settings
     //  So now let's start the real preloader going

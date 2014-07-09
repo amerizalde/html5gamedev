@@ -24,8 +24,8 @@ BasicGame.Boot.prototype = {
     if (this.game.device.android) {
       //  If you have any desktop specific settings, they can go in here
       this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-      /*this.scale.pageAlignHorizontally = true;
-      this.scale.pageAlignVertically = true;*/
+      this.scale.pageAlignHorizontally = true;
+      // this.scale.pageAlignVertically = true;
       // this.scale.setScreenSize(true);
       console.log("Android detected.")
     } else {
@@ -34,7 +34,6 @@ BasicGame.Boot.prototype = {
       this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
-      this.scale.setScreenSize(true);
       console.log("Android not detected.")
     }
 

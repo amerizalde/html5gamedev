@@ -47,7 +47,7 @@ BasicGame.Game.prototype = {
         this.powerup_timer--;
       } else {
         this.weaponLevel--;
-        this.powerup_timer = 2000;
+        this.powerup_timer = 200;
       }
     }
   },

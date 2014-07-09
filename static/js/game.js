@@ -40,6 +40,16 @@ BasicGame.Game.prototype = {
     this.enemyFire();
     this.processPlayerInput();
     this.processDelayedEffects();
+
+    // Finite powerups
+    if (this.weaponLevel > 0) {
+      if (this.powerup_timer > 0) {
+        this.powerup_timer--;
+      } else {
+        this.weaponLevel--;
+        this.powerup_timer = 2000;
+      }
+    }
   },
 
   // create-related functions
@@ -59,6 +69,7 @@ BasicGame.Game.prototype = {
     // 20x20 pixel hitbox, centered a little bit higher than the center
     this.player.body.setSize(20, 20, 0, -5);
     this.weaponLevel = 0;
+    this.powerup_timer = 5000;
   },
 
   setupEnemies: function () {

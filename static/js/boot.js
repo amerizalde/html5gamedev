@@ -10,9 +10,7 @@ BasicGame.Boot.prototype = {
 
     //  Here we load the assets required for our preloader (in this case a loading bar)
     this.load.image('preloaderBar',
-      'assets/preloader-bar.png',
-      this.game.width / 2,
-      this.game.height / 2);
+      'assets/preloader-bar.png');
 
   },
 

@@ -16,7 +16,7 @@ BasicGame.Preloader.prototype = {
     this.stage.backgroundColor = '#2d2d2d';
 
     this.preloadBar = this.add.sprite(
-      this.game.width / 2,
+      this.game.width / 2 - this.cache.getImage('preloaderBar').width / 2,
       this.game.height / 2 + 32, 'preloaderBar');
     this.add.text(
       this.game.width / 2,

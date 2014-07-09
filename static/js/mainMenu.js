@@ -26,12 +26,12 @@ BasicGame.MainMenu.prototype = {
       this.game.width / 2,
       this.game.height - 64,
       "image assets Copyright (c) 2002 Ari Feldman", 
-      { font: "16px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
+      { font: "10px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
     this.add.text(
       this.game.width / 2,
       this.game.height - 32,
       "sound assets Copyright (c) 2012 - 2013 Devin Watson",
-      { font: "16px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
+      { font: "10px monospace", fill: "#fff", align: "center"}).anchor.setTo(0.5, 0.5);
 
   },
 

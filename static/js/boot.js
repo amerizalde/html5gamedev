@@ -35,7 +35,7 @@ BasicGame.Boot.prototype = {
       this.scale.maxWidth = 480
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
-      this.scale.setShowAll();
+      this.scale.setMaximum();
     }
 
     //  By this point the preloader assets have loaded to the cache, we've set the game settings

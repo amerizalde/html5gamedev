@@ -23,16 +23,17 @@ BasicGame.Boot.prototype = {
 
     if (this.game.device.desktop) {
       //  If you have any desktop specific settings, they can go in here
+      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
       this.scale.setScreenSize(true);
     } else {
       //  Same goes for mobile settings.
       //  In this case we're saying "scale the game, no lower than 480x800"
-      this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
+      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       this.scale.minWidth = 480;
       this.scale.minHeight = 800;
-      this.scale.setScreenSize(true);
+      this.scale.startFullScreen();
     }
 
     //  By this point the preloader assets have loaded to the cache, we've set the game settings

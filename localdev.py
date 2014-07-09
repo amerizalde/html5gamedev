@@ -5,7 +5,7 @@ app = flask.Flask(__name__)
 ### ROUTES
 @app.route('/')
 def index():
-	return flask.redirect("static/index.html")
+	return flask.redirect("/static/index.html")
 
 @app.route('/index')
 def redirects():
@@ -13,7 +13,7 @@ def redirects():
 
 @app.route('/responsive')
 def responsive():
-    return flask.redirect("static/responsive.html")
+    return flask.redirect("/static/responsive.html")
 
 @app.route("/favicon.ico")
 def favicon():

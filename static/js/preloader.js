@@ -17,7 +17,7 @@ BasicGame.Preloader.prototype = {
 
     this.preloadBar = this.add.sprite(
       this.game.width / 2,
-      this.game.height / (2/3), 'preloaderBar');
+      this.game.height / 2 + 32, 'preloaderBar');
     this.add.text(
       this.game.width / 2,
       this.game.height / 2,
@@ -30,7 +30,7 @@ BasicGame.Preloader.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
     //  Here we load the rest of the assets our game needs.
-    this.load.image('titlepage', 'assets/titlepage.png');
+    this.load.image('titlepage', 'assets/Phaser_splash.jpg');
     this.load.image('sea', 'assets/sea.png');
     this.load.image('bullet', 'assets/bullet.png');
     this.load.image('enemyBullet', 'assets/enemy-bullet.png');

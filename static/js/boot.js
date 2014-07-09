@@ -29,6 +29,7 @@ BasicGame.Boot.prototype = {
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
       this.scale.setScreenSize(true);
+      console.log("Android detected.")
     } else {
       //  Same goes for mobile settings.
       //  In this case we're saying "scale the game, no lower than 480x800"
@@ -36,6 +37,7 @@ BasicGame.Boot.prototype = {
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
       this.scale.setScreenSize(true);
+      console.log("Android not detected.")
     }
 
     //  By this point the preloader assets have loaded to the cache, we've set the game settings

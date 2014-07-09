@@ -404,7 +404,7 @@ BasicGame.Game.prototype = {
   addToScore: function (score) {
     this.score += score;
     this.scoreText.text = this.score;
-    if (this.score >= 20000) {
+    if (this.score >= 2000) {
       this.enemyPool.destroy();
       this.shooterPool.destroy();
       this.enemyBulletPool.destroy();

@@ -159,7 +159,7 @@ BasicGame.Game.prototype = {
       this.game.width / 2,
       this.game.height / 2 - 20,
       "Use Arrow Keys to Move, Press Z to Fire\nTapping/clicking does both",
-      {font: "20px monospace", fill: "#fff", align: "center"});
+      {font: "16px Audiowide", fill: "#fff", align: "center"});
     this.instructions.anchor.setTo(0.5, 0.5);
     this.instExpire = this.time.now + 5000; // the max time to show this text
 
@@ -169,7 +169,7 @@ BasicGame.Game.prototype = {
       30,
       '' + this.score,
       {
-        font: '20px monospace', fill: '#fff', align: 'center'
+        font: '20px Audiowide', fill: '#fff', align: 'center'
       });
     this.scoreText.anchor.setTo(0.5, 0.5);
   },
@@ -214,7 +214,7 @@ BasicGame.Game.prototype = {
       this.nextEnemyAt = this.time.now + this.enemyDelay;
       var enemy = this.enemyPool.getFirstExists(false);
       // spawn at a random location at the top of the screen
-      enemy.reset(this.rnd.integerInRange(20, this.game.width - 20), 0,
+      enemy.reset(this.rnd.integerInRange(30, this.game.width - 30), 0,
         this.enemyInitialHealth);
       // also randomize the speed
       enemy.body.velocity.y = this.rnd.integerInRange(30, 60);
@@ -228,10 +228,10 @@ BasicGame.Game.prototype = {
 
       // spawn at random location at the top
       shooter.reset(
-        this.rnd.integerInRange(20, this.game.width - 20), 0, this.shooterInitialHealth);
+        this.rnd.integerInRange(30, this.game.width - 30), 0, this.shooterInitialHealth);
       // choose a random target location at the bottom
       var target = this.rnd.integerInRange(20, this.game.width - 20);
-      // move to target an rotate sprite accordingly
+      // move to target and rotate sprite accordingly
       shooter.rotation = this.physics.arcade.moveToXY(
         shooter,
         target,
@@ -308,7 +308,7 @@ BasicGame.Game.prototype = {
       this.returnText = this.add.text(
         this.game.width / 2, this.game.height / 2 + 20,
         'Press Z or Tap Game to go back to Main Menu',
-        {font: '16px sans-serif', fill: '#fff'});
+        {font: '16px Audiowide', fill: '#fff'});
       this.returnText.anchor.setTo(0.5, 0.5);
       this.showReturn = false;
     }
@@ -436,7 +436,7 @@ BasicGame.Game.prototype = {
       this.game.width / 2,
       this.game.height / 2 - 72,
       msg,
-      {font: "72px serif", fill: "#fff"});
+      {font: "72px Audiowide", fill: "#fff"});
     this.endText.anchor.setTo(0.5, 0);
     this.showReturn = this.time.now + 2000;
   },

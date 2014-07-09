@@ -23,7 +23,7 @@ BasicGame.Preloader.prototype = {
       this.game.width / 2,
       this.game.height / 2,
       "Loading...",
-      { font: "32px monospace", fill: "#fff" }).anchor.setTo(0.5, 0.5);
+      { font: "64px Audiowide", fill: "#fff" }).anchor.setTo(0.5, 0.5);
 
     //  This sets the preloadBar sprite as a loader sprite.
     //  What that does is automatically crop the sprite from 0 to full-width

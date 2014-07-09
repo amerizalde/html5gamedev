@@ -129,7 +129,7 @@ BasicGame.Game.prototype = {
     // add 50 bullet sprites in the group.
     // by default, this uses the first frame of the sprite sheet and sets
     // the initial state as non-existing (i.e killed/dead)
-    this.bulletPool.createMultiple(50, 'bullet');
+    this.bulletPool.createMultiple(10, 'bullet');
     // sets the anchors of all sprites
     this.bulletPool.setAll('anchor.x', 0.5);
     this.bulletPool.setAll('anchor.y', 0.5);

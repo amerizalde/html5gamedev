@@ -21,18 +21,18 @@ BasicGame.Boot.prototype = {
     //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
     // this.stage.disableVisibilityChange = true;
 
-    if (this.game.device.desktop) {
+    if (this.game.device.android) {
       //  If you have any desktop specific settings, they can go in here
       this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+      this.scale.maxHeight = 800
+      this.scale.maxWidth = 480
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
-      this.scale.setShowAll();
+      this.scale.setScreenSize(true);
     } else {
       //  Same goes for mobile settings.
       //  In this case we're saying "scale the game, no lower than 480x800"
       this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-      this.scale.maxHeight = 800
-      this.scale.maxWidth = 480
       this.scale.pageAlignHorizontally = true;
       this.scale.pageAlignVertically = true;
       this.scale.setScreenSize(true);

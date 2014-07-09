@@ -68,8 +68,6 @@ BasicGame.Game.prototype = {
     this.player.body.collideWorldBounds = true;
     // 20x20 pixel hitbox, centered a little bit higher than the center
     this.player.body.setSize(20, 20, 0, -5);
-    this.weaponLevel = 0;
-    this.powerup_timer = 200;
   },
 
   setupEnemies: function () {
@@ -189,6 +187,10 @@ BasicGame.Game.prototype = {
   },
 
   setupPlayerIcons: function () {
+    this.weaponLevel = 0;
+
+    this.powerup_timer = 200;
+    
     this.powerUpPool = this.add.group();
     this.powerUpPool.enableBody = true;
     this.powerUpPool.physicsBodyType = Phaser.Physics.ARCADE;
@@ -238,10 +240,16 @@ BasicGame.Game.prototype = {
 
   playerPowerUp: function (player, powerUp) {
     this.addToScore(powerUp.reward);
-    powerUp.kill();
     if (this.weaponLevel < 5) {
       this.weaponLevel++;
+      powerUp.reset(this.weaponLevel * 32 + 30, 60);
+      powerUp.body.velocity.y = 0;
+    } else {
+      powerUp.kill();
     }
+
+    // instead of consuming the powerup icon on collision, place it under
+    // the player lives to show weapon level. 
   },
 
   spawnEnemies: function () {

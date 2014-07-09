@@ -69,7 +69,7 @@ BasicGame.Game.prototype = {
     // 20x20 pixel hitbox, centered a little bit higher than the center
     this.player.body.setSize(20, 20, 0, -5);
     this.weaponLevel = 0;
-    this.powerup_timer = 5000;
+    this.powerup_timer = 200;
   },
 
   setupEnemies: function () {

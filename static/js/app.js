@@ -3,8 +3,8 @@ window.onload = function() {
   //  Create your Phaser game and inject it into the gameContainer div.
   //  We did it in a window.onload event, but you can do it anywhere (requireJS load, anonymous function, jQuery dom ready, - whatever floats your boat)
   var game = new Phaser.Game(
-    480 * window.devicePixelRatio,  // width -- devicePixelRatio covers retina displays
-    800 * window.devicePixelRatio, // height
+    480,// * window.devicePixelRatio,  // width -- devicePixelRatio covers retina displays
+    800,// * window.devicePixelRatio, // height
     Phaser.AUTO,        // renderer
     'gameContainer');   // DOM element to inject to
 

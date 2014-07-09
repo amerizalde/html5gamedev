@@ -20,7 +20,7 @@ BasicGame.Boot.prototype = {
 
     //  Phaser will automatically pause if the browser tab the game is in loses focus. You can disable that here:
     // this.stage.disableVisibilityChange = true;
-    if (!this.device.desktop) {
+    if (!this.game.device.desktop) {
       this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
       this.scale.pageAlignHorizontally = true;
       this.scale.setScreenSize();

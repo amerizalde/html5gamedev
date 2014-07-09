@@ -6,7 +6,7 @@ BasicGame.Game = function (game) {
 BasicGame.Game.prototype = {
   // preload, create, [update, render, repeat]
 
-  preload: function() {
+  /*preload: function() {
     // (name, imagepath)
     this.load.image('sea', 'assets/sea.png');
     this.load.image('bullet', 'assets/bullet.png');
@@ -15,7 +15,7 @@ BasicGame.Game.prototype = {
     this.load.spritesheet('whiteEnemy', 'assets/shooting-enemy.png', 32, 32);
     this.load.spritesheet('explosion', 'assets/explosion.png', 32, 32);
     this.load.spritesheet('player', 'assets/player.png', 64, 64);
-  },
+  },*/
 
   create: function () {
     // the order sprites are added here determines the z-order

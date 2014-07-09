@@ -35,8 +35,7 @@ BasicGame.Boot.prototype = {
       this.scale.maxWidth = 600;
       this.scale.maxHeight = 1000;
       this.scale.forcePortrait = true;
-      this.scale.pageAlignHorizontally = true;
-      this.scale.pageAlignVertically = true;
+      this.scale.setMaximum(true);
       this.scale.setScreenSize(true);
     }
 

@@ -29,8 +29,7 @@ BasicGame.Boot.prototype = {
       this.scale.setScreenSize();
     } else {
       console.log("Not in Desktop Mode.")
-      this.scale.scaleMode = Phaser.ScaleManager.EXACT_FIT;
-      this.stage.forcePortrait = true;
+      this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
       this.scale.pageAlignHorizontally = true;
       this.scale.setScreenSize();
     }

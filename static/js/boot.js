@@ -22,17 +22,9 @@ BasicGame.Boot.prototype = {
     // this.stage.disableVisibilityChange = true;
 
     this.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
-
-    if (this.game.device.android) {
-      //  If you have any desktop specific settings, they can go in here
-      this.scale.maxHeight = 800;
-      this.scale.maxWidth = 480;
-      this.scale.pageAlignHorizontally = true;
-      console.log("Mobile settings used.")
-    } else {
-      this.scale.pageAlignHorizontally = true;
-      console.log("Desktop settings used.")
-    }
+    this.scale.maxHeight = 800;
+    this.scale.maxWidth = 480;
+    this.scale.pageAlignHorizontally = true;
 
     this.scale.setScreenSize();
 

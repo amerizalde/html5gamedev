@@ -10,9 +10,7 @@ BasicGame.MainMenu.prototype = {
   preload: function () {
     this.load.image(
       'titlepage',
-      'assets/Phaser_splash.jpg',
-      this.game.width,
-      this.game.height);
+      'assets/Phaser_splash.jpg');
   },
 
   create: function () {

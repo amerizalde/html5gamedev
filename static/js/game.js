@@ -1,10 +1,12 @@
 
+// create a Game object
 BasicGame.Game = function (game) {
 
 };
 
+// add methods and properties
 BasicGame.Game.prototype = {
-  // preload, create, [update, render, repeat]
+  // the Phaser Game Loop -- preload, create, [update, render, repeat]
 
   create: function () {
     // the order sprites are added here determines the z-order

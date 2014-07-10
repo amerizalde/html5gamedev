@@ -178,9 +178,11 @@ BasicGame.Game.prototype = {
 
   setupPlayerIcons: function () {
     this.weaponLevel = 0;
+    this.powerup_charge = 300;
 
-    this.powerup_timer = 200;
+    this.powerup_timer = this.powerup_charge;
 
+    // drops
     this.powerUpPool = this.add.group();
     this.powerUpPool.enableBody = true;
     this.powerUpPool.physicsBodyType = Phaser.Physics.ARCADE;
@@ -190,6 +192,12 @@ BasicGame.Game.prototype = {
     this.powerUpPool.setAll('outOfBoundsKill', true);
     this.powerUpPool.setAll('checkWorldBounds', true);
     this.powerUpPool.setAll('reward', 100, false, false, 0, true);
+
+    // display
+    this.powerUpDisplay = this.add.group();
+    this.powerUpDisplay.createMultiple(5, 'powerup1');
+    this.powerUpDisplay.setAll('anchor.x', 0.5);
+    this.powerUpDisplay.setAll('anchor.y', 0.5);
 
     this.lives = this.add.group();
     for (var i = 3; i > 0; i--) {
@@ -231,14 +239,13 @@ BasicGame.Game.prototype = {
   playerPowerUp: function (player, powerUp) {
     // increment score
     this.addToScore(powerUp.reward);
+    powerUp.kill();
     // increase weapon level
     if (this.weaponLevel < 5) {
       this.weaponLevel++;
       // update display, using the same powerup icon that dropped
-      powerUp.reset(this.weaponLevel * 32 + 30, 60);
-      powerUp.body.velocity.y = 0;
-    } else {
-      powerUp.kill();
+      var p_icon = this.powerUpDisplay.getFirstDead();
+      p_icon.reset(this.weaponLevel * 32 + 30, 60);
     }
   },
 
@@ -360,10 +367,10 @@ BasicGame.Game.prototype = {
       } else {
         // once drained, the weapon level goes down
         // the display is updated, and the timer is reset
-        var p_icon = this.powerUpPool.getFirstAlive();
+        var p_icon = this.powerUpDisplay.getFirstAlive();
         p_icon.kill();
         this.weaponLevel--;
-        this.powerup_timer = 200;
+        this.powerup_timer = this.powerup_charge;
       }
     }
   },

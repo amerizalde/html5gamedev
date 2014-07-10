@@ -40,16 +40,6 @@ BasicGame.Game.prototype = {
     this.enemyFire();
     this.processPlayerInput();
     this.processDelayedEffects();
-
-    // Finite powerups
-    if (this.weaponLevel > 0) {
-      if (this.powerup_timer > 0) {
-        this.powerup_timer--;
-      } else {
-        this.weaponLevel--;
-        this.powerup_timer = 200;
-      }
-    }
   },
 
   // create-related functions
@@ -190,7 +180,7 @@ BasicGame.Game.prototype = {
     this.weaponLevel = 0;
 
     this.powerup_timer = 200;
-    
+
     this.powerUpPool = this.add.group();
     this.powerUpPool.enableBody = true;
     this.powerUpPool.physicsBodyType = Phaser.Physics.ARCADE;
@@ -239,17 +229,17 @@ BasicGame.Game.prototype = {
   },
 
   playerPowerUp: function (player, powerUp) {
+    // increment score
     this.addToScore(powerUp.reward);
+    // increase weapon level
     if (this.weaponLevel < 5) {
       this.weaponLevel++;
+      // update display, using the same powerup icon that dropped
       powerUp.reset(this.weaponLevel * 32 + 30, 60);
       powerUp.body.velocity.y = 0;
     } else {
       powerUp.kill();
     }
-
-    // instead of consuming the powerup icon on collision, place it under
-    // the player lives to show weapon level. 
   },
 
   spawnEnemies: function () {
@@ -341,13 +331,12 @@ BasicGame.Game.prototype = {
   },
 
   processDelayedEffects: function () {
+    // Instructions removal
     if (this.instructions.exists && this.time.now > this.instExpire) {
-      this.instructions.destroy(); // remove instructions from view
+      this.instructions.destroy();
     }
-    if (this.ghostUntil && this.ghostUntil < this.time.now) {
-      this.ghostUntil = null;
-      this.player.play('fly');
-    }
+
+    // Game Reset Instructions
     if (this.showReturn && this.time.now > this.showReturn) {
       this.returnText = this.add.text(
         this.game.width / 2, this.game.height / 2 + 20,
@@ -355,6 +344,27 @@ BasicGame.Game.prototype = {
         {font: '16px Audiowide', fill: '#fff'});
       this.returnText.anchor.setTo(0.5, 0.5);
       this.showReturn = false;
+    }
+
+    // Ghost effect after collision
+    if (this.ghostUntil && this.ghostUntil < this.time.now) {
+      this.ghostUntil = null;
+      this.player.play('fly');
+    }
+
+    // Finite powerups
+    if (this.weaponLevel > 0) {
+      if (this.powerup_timer > 0) {
+        // here the powerup steadily drains over time
+        this.powerup_timer--;
+      } else {
+        // once drained, the weapon level goes down
+        // the display is updated, and the timer is reset
+        var p_icon = this.powerUpPool.getFirstAlive();
+        p_icon.kill();
+        this.weaponLevel--;
+        this.powerup_timer = 200;
+      }
     }
   },
 

@@ -437,10 +437,19 @@ BasicGame.Game.prototype = {
     this.enemyPool.destroy();
     this.bulletPool.destroy();
     this.explosionPool.destroy();
+    this.shooterPool.destroy();
+    this.enemyBulletPool.destroy();
+    this.powerUpPool.destroy();
+    this.bossPool.destroy();
+
     this.instructions.destroy();
     this.scoreText.destroy();
     this.endText.destroy();
     this.returnText.destroy();
+
+    this.powerUpDisplay.destroy();
+    this.lives.destroy();
+
     //  Then let's go back to the main menu.
     this.state.start('MainMenu');
 

@@ -367,7 +367,7 @@ BasicGame.Game.prototype = {
       } else {
         // once drained, the weapon level goes down
         // the display is updated, and the timer is reset
-        var p_icon = this.powerUpDisplay.getFirstAlive();
+        var p_icon = this.powerUpDisplay.getIndex(this.weaponLevel);
         p_icon.kill();
         this.weaponLevel--;
         this.powerup_timer = this.powerup_charge;

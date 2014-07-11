@@ -129,7 +129,7 @@ BasicGame.Game.prototype = {
   isHorizontalMatch: function (i) {
     // checking from right to left, return true if all three locations
     // contain the same number
-    return this.colNumber(i) => 2 &&
+    return this.colNumber(i) >= 2 &&
           this.g_array[i] === this.g_array[i - 1] &&
           this.g_array[i] === this.g_array[i - 2] &&
           this.rowNumber(i) === this.rowNumber(i - 2);

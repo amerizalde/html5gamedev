@@ -26,12 +26,12 @@ BasicGame.Preloader.prototype = {
 
     //  Here we load the rest of the assets our game needs.
     this.load.image('titlepage', 'assets/match3_splash.jpg');
-    this.loadimage('tile_1', 'assets/polygon_1.png')
-    this.loadimage('tile_2', 'assets/polygon_2.png')
-    this.loadimage('tile_3', 'assets/polygon_3.png')
-    this.loadimage('tile_4', 'assets/polygon_4.png')
-    this.loadimage('tile_5', 'assets/polygon_5.png')
-    this.loadimage('tile_6', 'assets/polygon_6.png')
+    this.loadimage('tile_1', 'assets/polygon_1.png');
+    this.loadimage('tile_2', 'assets/polygon_2.png');
+    this.loadimage('tile_3', 'assets/polygon_3.png');
+    this.loadimage('tile_4', 'assets/polygon_4.png');
+    this.loadimage('tile_5', 'assets/polygon_5.png');
+    this.loadimage('tile_6', 'assets/polygon_6.png');
     //this.load.audio('explosion', ['assets/explosion.wav']);
     //this.load.audio('playerExplosion', ['assets/player-explosion.wav']);
     //this.load.audio('enemyFire', ['assets/enemy-fire.wav']);

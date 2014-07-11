@@ -146,7 +146,7 @@ BasicGame.Game.prototype = {
     for (var i = 0; i < this.FIELD_SIZE * this.FIELD_SIZE; i++) {
       var tile = this.g_array[i];
       var item = this.add.sprite(i % this.FIELD_SIZE * this.TILE_SIZE + this.OFFSET_X,
-        Math.floor(i / this.FIELD_SIZE) * this.TILE_SIZE + this.OFFSET_Y, tile);
+        Math.floor(i / this.FIELD_SIZE) * this.TILE_SIZE + this.OFFSET_Y, "tile_"+tile);
     }
   },
 };

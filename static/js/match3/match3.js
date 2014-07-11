@@ -4,7 +4,7 @@ BasicGame.Game = function (game) {
   this.TILE_SIZE = 48;
   this.FIELD_SIZE = 8;
   this.TILE_TYPES = 6;
-  this.OFFSET_X = 16;
+  this.OFFSET_X = 48;
   this.OFFSET_Y = 50;
   this.g_array = new Array(this.FIELD_SIZE * this.FIELD_SIZE);
 };

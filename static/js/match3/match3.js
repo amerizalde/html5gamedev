@@ -7,24 +7,46 @@ BasicGame.Game = function (game) {
   this.OFFSET_X = 48;
   this.OFFSET_Y = 50;
   this.g_array = new Array(this.FIELD_SIZE * this.FIELD_SIZE);
+
+  this.selectedGem = null;
+  this.selectedGemStartPos = null;
+  this.selectedGemTween = null;
+  this.shiftedGem = null;
+  this.shiftedGemTween = null;
+  this.highlight = null;
 };
 
 // add methods and properties
 BasicGame.Game.prototype = {
   // the Phaser Game Loop -- preload, create, [update, render, repeat]
-  preload: function () {
-    // load up the assets here.
-    this.buildLevel();
-  },
 
   create: function () {
+    this.buildLevel();
     this.drawLevel();
 
-    // the controls
-    this.cursors = this.input.keyboard.createCursorKeys();
+    this.selectedGemStartPos = {
+      x: 0,
+      y: 0,
+    };
+    this.highlight = this.add.graphics(0, 0);
+    this.highlight.lineStyle(2, 0xff0000, 1);
+    this.highlight.drawRect(48, 50, this.TILE_SIZE, this.TILE_SIZE);
+    this.gem_selected = this.game.add.sprite(0, 0, null);
+    this.gem_selected.addChild(this.highlight);
+
+    this.allowInput = true;
   },
 
   update: function () {
+    /*
+      when the mouse is released with a gem selected:
+
+      check for matches
+      remove matched gems
+      drop down gems above removed gems
+      refill the board
+
+    */
   },
 
   // create-related functions
@@ -38,62 +60,28 @@ BasicGame.Game.prototype = {
   // update-related functions
 
   processPlayerInput: function () {
-    var damper = 0.77;
-    this.player.body.velocity.x = 0;
-    this.player.body.velocity.y = 0;
-
-    // diagonal movement
-    if (this.cursors.left.isDown && this.cursors.up.isDown) {
-      this.player.body.velocity.x = -(this.player.speed * damper);
-      this.player.body.velocity.y = -(this.player.speed * damper);
-    } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
-      this.player.body.velocity.x = -(this.player.speed * damper);
-      this.player.body.velocity.y = (this.player.speed * damper);
-    }
-
-    if (this.cursors.right.isDown && this.cursors.up.isDown) {
-      this.player.body.velocity.x = (this.player.speed * damper);
-      this.player.body.velocity.y = -(this.player.speed * damper);
-    } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
-      this.player.body.velocity.x = (this.player.speed * damper);
-      this.player.body.velocity.y = (this.player.speed * damper);
-    }
-
-    // horizontal movement
-    if (this.cursors.left.isDown) {
-      this.player.body.velocity.x = -this.player.speed;
-    } else if (this.cursors.right.isDown) {
-      this.player.body.velocity.x = this.player.speed;
-    }
-
-    // vertical movement
-    if (this.cursors.up.isDown) {
-      this.player.body.velocity.y = -this.player.speed;
-    } else if (this.cursors.down.isDown) {
-      this.player.body.velocity.y = this.player.speed;
-    }
-
-    // mouse/touch movement
-    if (this.game.input.activePointer.isDown &&
-        this.game.physics.arcade.distanceToPointer(this.player) > 15) {
-      this.game.physics.arcade.moveToPointer(this.player, this.player.speed);
-    }
-
-    // attacking
-    if (this.input.keyboard.isDown(Phaser.Keyboard.Z) ||
-        this.input.activePointer.isDown) {
-      if (this.returnText && this.returnText.exists) {
-        this.quitGame();
-      } else {
-        this.fire();
+    if (this.input.activePointer.justReleased()) {
+      if (this.selectedGem != null) {
+        // check and kill gem matches
+        if (this.shiftedGem != null) {
+          // check and kill gem matches
+        }
+        // remove killed gems
+        // null out selected and shifted gems placeholders
       }
+    }
+
+    if (this.selectedGem != null) {
+      // check if selected gem can be moved to mouse position
+      // if so, move it
+      // if there is a previously shifted gem, move it to the selected
+      //  gem's position.
+      // if there is a gem already at the mouse position, swap the selected
+      //  gem with the new shifted gem.
     }
   },
 
   processDelayedEffects: function () {
-  },
-
-  updatePowerIconDisplay: function () {
   },
 
   render: function () {
@@ -103,9 +91,6 @@ BasicGame.Game.prototype = {
 
   quitGame: function (pointer) {
     //  Then let's go back to the main menu.
-  },
-
-  spawnPowerUp: function(enemy) {
   },
 
   addToScore: function (score) {
@@ -143,10 +128,25 @@ BasicGame.Game.prototype = {
   },
 
   drawLevel: function () {
+    this.gems = this.add.group();
     for (var i = 0; i < this.FIELD_SIZE * this.FIELD_SIZE; i++) {
       var tile = this.g_array[i];
-      var item = this.add.sprite(i % this.FIELD_SIZE * this.TILE_SIZE + this.OFFSET_X,
-        Math.floor(i / this.FIELD_SIZE) * this.TILE_SIZE + this.OFFSET_Y, "tile_"+tile);
+      var item = this.gems.create(
+        i % this.FIELD_SIZE * this.TILE_SIZE + this.OFFSET_X,  // x position
+        Math.floor(i / this.FIELD_SIZE) * this.TILE_SIZE + this.OFFSET_Y,  // y position
+        "tile_"+tile);
+      item.inputEnabled = true;
+      item.events.onInputOver.add(this.pointerIsOver, this);
+      // change origin to midpoint for rotation juice later.
+      item.anchor.setTo(0.5, 0.5);
     }
+    // force a 'reward' property onto all the gems for scoring.
+    this.gems.setAll('reward', 100, false, false, 0, true);
+  },
+
+  pointerIsOver: function (gem, pointer) {
+    this.gem_selected.reset(
+      gem.x - this.OFFSET_X - gem.width / 2,
+      gem.y - this.OFFSET_Y - gem.height / 2);
   },
 };

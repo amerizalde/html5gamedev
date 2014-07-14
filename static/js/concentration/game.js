@@ -32,8 +32,9 @@ BasicGame.Game.prototype = {
   },
 
   pickACard: function (card, pointer) {
-    for (prop in this.cache) {
-      console.log(prop);
-    }
+    console.log(this.cache._cacheMap);
+    /*
+this.cache._cacheMap.2.cards.frameData._frames.[0 : 54] // the cards
+    */
   },
 };

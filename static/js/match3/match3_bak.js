@@ -53,13 +53,14 @@ BasicGame.Game.prototype = {
   },
 
   setupHighlight: function () {
-    this.highlight_bmp = this.add.bitmapData(this.TILE_SIZE, this.TILE_SIZE);
-    this.highlight_bmp.fill(45, 45, 45, .5);
-    this.gem_selected = this.add.image(
-      0,
-      0,
-      this.highlight_bmp);
-    this.gem_selected.blendMode = Phaser.blendModes.SCREEN;
+    this.highlight = this.add.graphics(0, 0);
+    this.highlight.lineStyle(2, 0xffffff, 0);
+    this.highlight.beginFill(0xffffff);
+    this.highlight.drawRect(48, 50, this.TILE_SIZE, this.TILE_SIZE);
+
+    this.gem_selected = this.game.add.sprite(0, 0, null);
+    this.gem_selected.mask = this.highlight;
+    this.gem_selected.blendMode = PIXI.blendModes.SCREEN;
   },
   // update-related functions
 
@@ -149,12 +150,8 @@ BasicGame.Game.prototype = {
   },
 
   pointerIsOver: function (gem, pointer) {
-    /*this.gem_selected.reset(
+    this.gem_selected.reset(
       gem.x - this.OFFSET_X - gem.width / 2,
       gem.y - this.OFFSET_Y - gem.height / 2);
-  },*/
-  this.gem_selected.reset(
-      gem.x - gem.width / 2,
-      gem.y - gem.height / 2);
   },
 };

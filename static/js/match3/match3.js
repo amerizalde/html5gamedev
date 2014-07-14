@@ -149,11 +149,7 @@ BasicGame.Game.prototype = {
   },
 
   pointerIsOver: function (gem, pointer) {
-    /*this.gem_selected.reset(
-      gem.x - this.OFFSET_X - gem.width / 2,
-      gem.y - this.OFFSET_Y - gem.height / 2);
-  },*/
-  this.gem_selected.reset(
+    this.gem_selected.reset(
       gem.x - gem.width / 2,
       gem.y - gem.height / 2);
   },

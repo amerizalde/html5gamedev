@@ -17,7 +17,7 @@ BasicGame.Preloader.prototype = {
       this.game.width / 2,
       this.game.height / 2,
       "Loading...",
-      { font: "64px Audiowide", fill: "#fff" }).anchor.setTo(0.5, 0.5);
+      { font: "64px Audiowide", fill: "#ff00ff" }).anchor.setTo(0.5, 0.5);
 
     //  This sets the preloadBar sprite as a loader sprite.
     //  What that does is automatically crop the sprite from 0 to full-width
@@ -25,14 +25,14 @@ BasicGame.Preloader.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
     //  Here we load the rest of the assets our game needs.
-    this.load.image('titlepage', 'assets/match3_splash.jpg');
+    this.load.image('titlepage', 'assets/cards_splash.png');
     this.load.atlas(
       'cards',
       'assets/playingCards.png',
       'assets/playingCards.json',
       null,
       1);
-    /* 
+    /*
     0: Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY
     1: Phaser.Loader.TEXTURE_ATLAS_JSON_HASH
     2: Phaser.Loader.TEXTURE_ATLAS_XML_STARLING
@@ -53,10 +53,10 @@ BasicGame.Preloader.prototype = {
     //  You can jump right into the menu if you want and still play the music, but you'll have a few
     //  seconds of delay while the mp3 decodes - so if you need your music to be in-sync with your menu
     //  it's best to wait for it to decode here first, then carry on.
-    
+
     //  If you don't have any music in your game then put the game.state.start line into the create function and delete
     //  the update function completely.
-    
+
     //if (this.cache.isSoundDecoded('titleMusic') && this.ready == false)
     //{
     //  this.ready = true;

@@ -14,9 +14,10 @@ BasicGame.Game.prototype = {
     this.TILE_W = 141 * this.SCALE;
     this.TILE_H = 190 * this.SCALE;
     this.table = new Array(this.ROWS * this.COLS);
-
-    this.pick_one = 0;
-    this.pick_two = 0;
+    /*
+    this.cardBacks = this.add.sprite("cards", "cardBack_blue2");
+    this.card.inputEnabled = true;
+    this.card.events.onInputDown.add(this.pickACard, this);*/
 
     this.setTable();
   },
@@ -86,18 +87,5 @@ this.cache._cacheMap.2.cards.frameData._frames.[0 : 54] // the cards
 
   revealCard: function (card, pointer) {
     card.frameName = this.table[card.reveal];
-    if (this.pick_one) {
-      this.pick_two = this.pick_one;
-      this.pick_one = card;
-    } else {
-      this.pickone = card;
-    }
-
-    if (this.pick_one && this.pick_two) {
-      // check for match
-      // clear the temp slots
-      this.pick_one = 0;
-      this.pick_two = 0;
-    }
   },
 };

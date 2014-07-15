@@ -14,10 +14,9 @@ BasicGame.Game.prototype = {
     this.TILE_W = 141 * this.SCALE;
     this.TILE_H = 190 * this.SCALE;
     this.table = new Array(this.ROWS * this.COLS);
-    /*
-    this.cardBacks = this.add.sprite("cards", "cardBack_blue2");
-    this.card.inputEnabled = true;
-    this.card.events.onInputDown.add(this.pickACard, this);*/
+
+    this.pick_one = null;
+    this.pick_two = null;
 
     this.setTable();
   },
@@ -86,6 +85,45 @@ this.cache._cacheMap.2.cards.frameData._frames.[0 : 54] // the cards
   },
 
   revealCard: function (card, pointer) {
+    // flip back the previous picks
+    if (this.pick_one && this.pick_two) {
+      this.flip();
+    }
+    // reveal the pick
     card.frameName = this.table[card.reveal];
+
+    if (this.pick_one === null) {
+      this.pick_one = card;
+    } else {
+      this.pick_two = this.pick_one;
+      this.pick_one = card;
+    }
+    console.log("After picks loop");
+    if (this.pick_one && this.pick_two) {
+      console.log("There are two picks. Check for a match.");
+      this.checkMatches();
+      console.log("After matches loop.");
+    }
+
+    console.log("First pick: " + (this.pick_one.frameName || this.pick_one));
+    console.log("Second pick: " + (this.pick_two.frameName || this.pick_two));
+  },
+
+  checkMatches: function () {
+    // check for match
+      if (this.pick_one.frameName === this.pick_two.frameName) {
+        console.log("There was a match.");
+        this.pick_one.kill();
+        this.pick_two.kill();
+      } else {
+        console.log("There was not a match.");
+      }
+  },
+
+  flip: function () {
+    this.pick_one.frameName = "cardBack_blue2";
+    this.pick_two.frameName = "cardBack_blue2";
+    this.pick_one = null;
+    this.pick_two = null;
   },
 };

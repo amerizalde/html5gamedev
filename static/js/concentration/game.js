@@ -17,7 +17,7 @@ BasicGame.Game.prototype = {
     this.pick_one = null;
     this.pick_two = null;
     this.matchedcount = this.table.length / 2;
-
+    this.setupSFX();
     this.setTable();
   },
 
@@ -36,6 +36,12 @@ BasicGame.Game.prototype = {
   },
 
   // create-related functions
+  setupSFX: function () {
+    this.pickSnd1 = this.add.audio('sfx3');
+    this.pickSnd2 = this.add.audio('sfx4');
+    this.matchSnd = this.add.audio('sfx2');
+  },
+
   setTable: function () {
     var suits = ["Clubs", "Hearts", "Diamonds", "Spades"];
     var ranks = ["A", "K", 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
@@ -117,6 +123,8 @@ BasicGame.Game.prototype = {
     if (this.pick_one && this.pick_two) {
       this.flip();
     }
+    this.pickSnd1.play();
+    this.pickSnd2.play();
     // reveal the pick
     card.frameName = this.table[card.reveal];
     // juice up the interaction
@@ -146,6 +154,7 @@ BasicGame.Game.prototype = {
   checkMatches: function () {
       if (this.pick_one.frameName === this.pick_two.frameName) {
         // MATCH!
+        this.matchSnd.play();
         this.dissolve();
         // decrement so we know if the game is over
         this.matchedcount--;

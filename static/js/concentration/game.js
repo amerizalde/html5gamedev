@@ -104,6 +104,15 @@ BasicGame.Game.prototype = {
     //  Here you should destroy anything you no longer need.
     //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
     this.cards.destroy();
+    this.pickSnd1.stop();
+    this.pickSnd2.stop();
+    this.matchSnd.stop();
+    this.pickSnd1 = null;
+    this.pickSnd2 = null;
+    this.matchSnd = null;
+    if (this.returnText) {
+      this.returnText.destroy();
+    }
     //  Then let's go back to the main menu.
     this.state.start('MainMenu');
   },

@@ -40,13 +40,15 @@ BasicGame.Game.prototype = {
     var suits = ["Clubs", "Hearts", "Diamonds", "Spades"];
     var ranks = ["A", "K", 'Q', 'J', '10', '9', '8', '7', '6', '5', '4', '3', '2'];
 
-    for (var i = 0; i < this.ROWS * this.COLS; i++) {
+    for (var i = 0; i < this.table.length; i++) {
       var suit = suits[Math.floor(Math.random() * suits.length)];
       var rank = ranks[Math.floor(Math.random() * ranks.length)];
       var cardFrame = "card" + suit + rank;
       this.table[i] = cardFrame;
-      this.table[this.table.length - i] = cardFrame;
+      this.table[this.table.length - i - 1] = cardFrame;
     }
+
+    this.shuffle();
 
     // create a sprite group
     this.cards = this.add.group();
@@ -76,6 +78,19 @@ BasicGame.Game.prototype = {
       card.scale.setTo(this.SCALE, this.SCALE);
       // add event
       card.events.onInputDown.add(this.revealCard, this);
+    }
+  },
+
+  shuffle: function () {
+    // http://en.wikipedia.org/wiki/Fisher-Yates_shuffle
+    var count = this.table.length, temp, index;
+    while (count) {
+      // pick a remaining element...
+      index = Math.floor(Math.random() * count--);
+      // swap it with the current element
+      temp = this.table[count];
+      this.table[count] = this.table[index];
+      this.table[index] = temp;
     }
   },
 
@@ -114,9 +129,12 @@ BasicGame.Game.prototype = {
       // the first pick
       this.pick_one = card;
     } else {
-      // the second pick
-      this.pick_two = this.pick_one;
-      this.pick_one = card;
+      // ignore picks on the same location
+      if (card.x != this.pick_one.x || card.y != this.pick_one.y){
+        // the second pick
+        this.pick_two = this.pick_one;
+        this.pick_one = card;
+      }
     }
 
     if (this.pick_one && this.pick_two) {
@@ -131,6 +149,7 @@ BasicGame.Game.prototype = {
         this.dissolve();
         // decrement so we know if the game is over
         this.matchedcount--;
+        console.log(this.matchedcount);
         if (this.matchedcount <= 0) {
           this.endGameText(true);
         }
@@ -155,9 +174,9 @@ BasicGame.Game.prototype = {
     this.pick_one.bringToTop();
     this.pick_two.bringToTop();
     this.pick_one.body.reset(this.pick_one.x, this.pick_one.y);
-    this.pick_one.body.velocity.y = 1000;
+    this.pick_one.body.velocity.y = 500;
     this.pick_two.body.reset(this.pick_two.x, this.pick_two.y);
-    this.pick_two.body.velocity.y = 1000;
+    this.pick_two.body.velocity.y = 500;
     this.add.tween(this.pick_one.body.velocity.y).to(
       1000, 250, Phaser.Easing.Back.In, true,
       0, false, false);
@@ -165,10 +184,10 @@ BasicGame.Game.prototype = {
       1000, 100, Phaser.Easing.Back.In, true,
       0, false, false);
     this.add.tween(this.pick_one.scale).to(
-      {x: 0.0, y: 0.0}, 1000, Phaser.Easing.Bounce.Out, true,
+      {x: 0.0, y: 0.0}, 1000, Phaser.Easing.Back.Out, true,
       0, false, false);
     this.add.tween(this.pick_two.scale).to(
-      {x: 0.0, y: 0.0}, 1000, Phaser.Easing.Bounce.Out, true,
+      {x: 0.0, y: 0.0}, 1000, Phaser.Easing.Back.Out, true,
       0, false, false);
   },
 

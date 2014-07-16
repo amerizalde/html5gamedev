@@ -40,7 +40,6 @@ BasicGame.Preloader.prototype = {
     4: Phaser.Loader.PHYSICS_PHASER_JSON
     */
     //  + lots of other required assets here
-    this.load.audio('sfx1', 'assets/powerup2.ogg');
     this.load.audio('sfx2', 'assets/jingles_PIZZA16.ogg');
     this.load.audio('sfx3', 'assets/click2.ogg');
     this.load.audio('sfx4', 'assets/click3.ogg');

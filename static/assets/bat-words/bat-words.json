@@ -1,0 +1,188 @@
+{"frames": {
+
+"aieee.png":
+{
+	"frame": {"x":2,"y":2,"w":478,"h":354},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":17,"y":20,"w":478,"h":354},
+	"sourceSize": {"w":514,"h":378}
+},
+"arrrgh.png":
+{
+	"frame": {"x":484,"y":2,"w":470,"h":298},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":18,"y":40,"w":470,"h":298},
+	"sourceSize": {"w":514,"h":378}
+},
+"awk.png":
+{
+	"frame": {"x":958,"y":2,"w":478,"h":316},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":35,"w":478,"h":316},
+	"sourceSize": {"w":514,"h":378}
+},
+"bam.png":
+{
+	"frame": {"x":1440,"y":2,"w":466,"h":310},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":38,"y":42,"w":466,"h":310},
+	"sourceSize": {"w":514,"h":378}
+},
+"bang.png":
+{
+	"frame": {"x":2,"y":360,"w":474,"h":302},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":15,"y":68,"w":474,"h":302},
+	"sourceSize": {"w":514,"h":378}
+},
+"bap.png":
+{
+	"frame": {"x":480,"y":360,"w":438,"h":338},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":24,"y":19,"w":438,"h":338},
+	"sourceSize": {"w":514,"h":378}
+},
+"biff.png":
+{
+	"frame": {"x":922,"y":360,"w":512,"h":324},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":2,"y":54,"w":512,"h":324},
+	"sourceSize": {"w":514,"h":378}
+},
+"bloop.png":
+{
+	"frame": {"x":1438,"y":360,"w":462,"h":276},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":47,"y":53,"w":462,"h":276},
+	"sourceSize": {"w":514,"h":378}
+},
+"blurp.png":
+{
+	"frame": {"x":2,"y":702,"w":472,"h":142},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":16,"y":86,"w":472,"h":142},
+	"sourceSize": {"w":514,"h":378}
+},
+"bonk.png":
+{
+	"frame": {"x":478,"y":702,"w":492,"h":322},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":9,"y":12,"w":492,"h":322},
+	"sourceSize": {"w":514,"h":378}
+},
+"clank.png":
+{
+	"frame": {"x":974,"y":702,"w":460,"h":300},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":25,"y":26,"w":460,"h":300},
+	"sourceSize": {"w":514,"h":378}
+},
+"clash.png":
+{
+	"frame": {"x":1438,"y":702,"w":426,"h":352},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":50,"y":24,"w":426,"h":352},
+	"sourceSize": {"w":514,"h":378}
+},
+"clunk.png":
+{
+	"frame": {"x":2,"y":1058,"w":474,"h":318},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":20,"y":23,"w":474,"h":318},
+	"sourceSize": {"w":514,"h":378}
+},
+"craaak.png":
+{
+	"frame": {"x":480,"y":1058,"w":500,"h":304},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":4,"y":29,"w":500,"h":304},
+	"sourceSize": {"w":514,"h":378}
+},
+"crash.png":
+{
+	"frame": {"x":984,"y":1058,"w":450,"h":294},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":30,"y":46,"w":450,"h":294},
+	"sourceSize": {"w":514,"h":378}
+},
+"crunch.png":
+{
+	"frame": {"x":1438,"y":1058,"w":456,"h":334},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":53,"y":16,"w":456,"h":334},
+	"sourceSize": {"w":514,"h":378}
+},
+"eeyow.png":
+{
+	"frame": {"x":2,"y":1396,"w":456,"h":300},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":31,"y":36,"w":456,"h":300},
+	"sourceSize": {"w":514,"h":378}
+},
+"flrbbb.png":
+{
+	"frame": {"x":462,"y":1396,"w":474,"h":310},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":21,"y":50,"w":474,"h":310},
+	"sourceSize": {"w":514,"h":378}
+},
+"glipp.png":
+{
+	"frame": {"x":940,"y":1396,"w":504,"h":294},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":5,"y":68,"w":504,"h":294},
+	"sourceSize": {"w":514,"h":378}
+},
+"kapow.png":
+{
+	"frame": {"x":1448,"y":1396,"w":444,"h":298},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":43,"y":37,"w":444,"h":298},
+	"sourceSize": {"w":514,"h":378}
+},
+"kayo.png":
+{
+	"frame": {"x":2,"y":1710,"w":456,"h":316},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":28,"y":26,"w":456,"h":316},
+	"sourceSize": {"w":514,"h":378}
+},
+"kerplop.png":
+{
+	"frame": {"x":462,"y":1710,"w":338,"h":276},
+	"rotated": false,
+	"trimmed": true,
+	"spriteSourceSize": {"x":76,"y":47,"w":338,"h":276},
+	"sourceSize": {"w":514,"h":378}
+}},
+"meta": {
+	"app": "http://www.texturepacker.com",
+	"version": "1.0",
+	"image": "bat-words.png",
+	"format": "RGBA8888",
+	"size": {"w":2048,"h":2048},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:931106f68b55b9391e2add879d96e877$"
+}
+}

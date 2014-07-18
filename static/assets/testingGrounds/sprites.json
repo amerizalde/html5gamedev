@@ -8,25 +8,17 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
 	"sourceSize": {"w":256,"h":256}
 },
-"laserGreen04.png":
-{
-	"frame": {"x":2,"y":454,"w":13,"h":37},
-	"rotated": false,
-	"trimmed": false,
-	"spriteSourceSize": {"x":0,"y":0,"w":13,"h":37},
-	"sourceSize": {"w":13,"h":37}
-},
 "playerShip1_green.png":
 {
-	"frame": {"x":2,"y":260,"w":99,"h":75},
-	"rotated": true,
+	"frame": {"x":260,"y":2,"w":99,"h":75},
+	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":99,"h":75},
 	"sourceSize": {"w":99,"h":75}
 },
 "ufoBlue.png":
 {
-	"frame": {"x":172,"y":260,"w":91,"h":91},
+	"frame": {"x":260,"y":172,"w":91,"h":91},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":91},
@@ -34,7 +26,7 @@
 },
 "ufoGreen.png":
 {
-	"frame": {"x":95,"y":353,"w":91,"h":91},
+	"frame": {"x":353,"y":95,"w":91,"h":91},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":91},
@@ -42,7 +34,7 @@
 },
 "ufoRed.png":
 {
-	"frame": {"x":79,"y":260,"w":91,"h":91},
+	"frame": {"x":260,"y":79,"w":91,"h":91},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":91},
@@ -50,12 +42,13 @@
 },
 "ufoYellow.png":
 {
-	"frame": {"x":2,"y":361,"w":91,"h":91},
+	"frame": {"x":361,"y":2,"w":91,"h":91},
 	"rotated": false,
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":91},
 	"sourceSize": {"w":91,"h":91}
-}},
+}
+},
 "meta": {
 	"app": "http://www.texturepacker.com",
 	"version": "1.0",
@@ -63,6 +56,6 @@
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:d1bda60e0f093178900182e2087d24de$"
+	"smartupdate": "$TexturePacker:SmartUpdate:e2b25952b4e08506050c271dbe69beef$"
 }
 }

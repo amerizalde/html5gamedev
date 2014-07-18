@@ -26,6 +26,8 @@ BasicGame.Preloader.prototype = {
 
     //  Here we load the rest of the assets our game needs.
     this.load.image('titlepage', 'assets/cards_splash.png');
+    // atlas args
+    // ('pick a name', image, json_file, json_object, json_type);
     this.load.atlas('guinea', 'assets/testingGrounds/sprites.png',
       'assets/testingGrounds/sprites.json', null, 1);
     console.log()
@@ -38,12 +40,12 @@ BasicGame.Preloader.prototype = {
     */
     //  + lots of other required assets here
     this.load.image('background', 'assets/testingGrounds/darkPurple.png');
-    this.load.image('player', 'assets/testingGrounds/playerShip1_green.png');
+    /*this.load.image('player', 'assets/testingGrounds/playerShip1_green.png');
     this.load.image('gp1', 'assets/testingGrounds/ufoBlue.png');
     this.load.image('gp2', 'assets/testingGrounds/ufoGreen.png');
     this.load.image('gp3', 'assets/testingGrounds/ufoRed.png');
     this.load.image('gp4', 'assets/testingGrounds/ufoYellow.png');
-    this.load.audio('sfx2', 'assets/jingles_PIZZA16.ogg');
+    this.load.audio('sfx2', 'assets/jingles_PIZZA16.ogg');*/
   },
 
   create: function () {

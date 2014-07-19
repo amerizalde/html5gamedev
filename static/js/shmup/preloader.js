@@ -31,22 +31,24 @@ BasicGame.Preloader.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
     //  Here we load the rest of the assets our game needs.
-    this.load.image('titlepage', 'assets/Phaser_splash.jpg');
-    this.load.image('sea', 'assets/sea.png');
-    this.load.image('bullet', 'assets/bullet.png');
-    this.load.image('enemyBullet', 'assets/enemy-bullet.png');
-    this.load.image('powerup1', 'assets/powerup1.png');
-    this.load.spritesheet('greenEnemy', 'assets/enemy.png', 32, 32);
-    this.load.spritesheet('whiteEnemy', 'assets/shooting-enemy.png', 32, 32);
-    this.load.spritesheet('boss', 'assets/boss.png', 93, 75);
-    this.load.spritesheet('explosion', 'assets/explosion.png', 32, 32);
-    this.load.spritesheet('player', 'assets/player.png', 64, 64);
-    this.load.audio('explosion', ['assets/explosion.wav']);
-    this.load.audio('playerExplosion', ['assets/player-explosion.wav']);
-    this.load.audio('enemyFire', ['assets/enemy-fire.wav']);
-    this.load.audio('playerFire', ['assets/player-fire.wav']);
-    this.load.audio('powerUp', ['assets/powerup.wav']);
+    this.load.image('titlepage',    'assets/shmup/Phaser_splash.jpg');
+    this.load.image('sea',          'assets/shmup/sea.png');
+    this.load.image('bullet',       'assets/shmup/bullet.png');
+    this.load.image('enemyBullet',  'assets/shmup/enemy-bullet.png');
+    this.load.image('powerup1',     'assets/shmup/powerup1.png');
+
+    this.load.audio('explosion',        ['assets/shmup/explodemini.wav']);
+    this.load.audio('playerExplosion',  ['assets/shmup/player-explosion.wav']);
+    this.load.audio('enemyFire',        ['assets/shmup/enemy-fire.wav']);
+    this.load.audio('playerFire',       ['assets/shmup/player-fire.wav']);
+    this.load.audio('powerUp',          ['assets/shmup/powerup.wav']);
     //this.load.audio('titleMusic', ['audio/main_menu.mp3']);
+
+    this.load.spritesheet('greenEnemy', 'assets/shmup/enemy.png', 32, 32);
+    this.load.spritesheet('whiteEnemy', 'assets/shmup/shooting-enemy.png', 32, 32);
+    this.load.spritesheet('boss',       'assets/shmup/boss.png', 93, 75);
+    this.load.spritesheet('explosion',  'assets/shmup/explosion.png', 32, 32);
+    this.load.spritesheet('player',     'assets/shmup/player.png', 64, 64);
     //  + lots of other required assets here
     this.load.atlas('batwords', 'assets/bat-words/bat-words.png',
       'assets/bat-words/bat-words.json', null, 0);

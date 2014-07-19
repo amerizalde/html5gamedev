@@ -13,19 +13,20 @@ BasicGame.Game.prototype = {
     // (x, y, w, h, name)
     // (x, y, name)
     this.sea = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'sea');
+    // this.sea.autoScroll(0, 2);
     this.setupPlayer();
     this.setupEnemies();
     this.setupBullets();
     this.setupExplosions();
     this.setupPlayerIcons();
     this.setupText();
+    this.setupSound();
 
     // the controls
     this.cursors = this.input.keyboard.createCursorKeys();
   },
 
   update: function () {
-    this.sea.tilePosition.y += 0.2;
     this.checkCollisions();
     this.spawnEnemies();
     this.enemyFire();
@@ -62,7 +63,7 @@ BasicGame.Game.prototype = {
     this.enemyPool.setAll('outOfBoundsKill', true);
     this.enemyPool.setAll('checkWorldBounds', true);
     this.enemyPool.setAll('reward', 100, false, false, 0, true);
-    this.enemyPool.setAll('dropRate', 0.3, false, false, 0, true);
+    this.enemyPool.setAll('dropRate', 0.1, false, false, 0, true);
     // sets the animation for each sprite
     this.enemyPool.forEach(function(enemy) {
       enemy.animations.add('fly', [0, 1, 2], 20, true);
@@ -74,7 +75,7 @@ BasicGame.Game.prototype = {
     // spawn when game starts
     this.nextEnemyAt = 0;
     this.enemyDelay = 1000;
-    this.enemyInitialHealth = 2;
+    this.enemyInitialHealth = 4;
 
     // Shooters
     this.shooterPool = this.add.group();
@@ -99,7 +100,7 @@ BasicGame.Game.prototype = {
     this.nextShooterAt = this.time.now + 5000;
     this.shooterDelay = 3000;
     this.shooterShotDelay = 2000;
-    this.shooterInitialHealth = 5;
+    this.shooterInitialHealth = 10;
 
     // Da Baws
     this.bossPool = this.add.group();
@@ -224,6 +225,15 @@ BasicGame.Game.prototype = {
     }
   },
 
+  setupSound: function () {
+    this.sndExplosion = this.add.audio('explosion');
+    this.sndPlayerExplosion = this.add.audio('playerExplosion');
+    this.sndEnemyFire = this.add.audio('enemyFire');
+    this.sndPlayerFire = this.add.audio('playerFire');
+    this.sndPlayerFire.volume = 0.5;
+    this.sndPowerUp = this.add.audio('powerUp');
+  },
+
   // update-related functions
   checkCollisions: function () {
     // Bullet/ Greenie Collision
@@ -265,6 +275,7 @@ BasicGame.Game.prototype = {
     // increment score
     this.addToScore(powerUp.reward);
     powerUp.kill();
+    this.sndPowerUp.play();
     // increase weapon level
     if (this.weaponLevel < 5) {
       this.weaponLevel++;
@@ -315,43 +326,6 @@ BasicGame.Game.prototype = {
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
 
-    // diagonal movement
-    if (this.cursors.left.isDown && this.cursors.up.isDown) {
-      this.player.body.velocity.x = -(this.player.speed * damper);
-      this.player.body.velocity.y = -(this.player.speed * damper);
-    } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
-      this.player.body.velocity.x = -(this.player.speed * damper);
-      this.player.body.velocity.y = (this.player.speed * damper);
-    }
-
-    if (this.cursors.right.isDown && this.cursors.up.isDown) {
-      this.player.body.velocity.x = (this.player.speed * damper);
-      this.player.body.velocity.y = -(this.player.speed * damper);
-    } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
-      this.player.body.velocity.x = (this.player.speed * damper);
-      this.player.body.velocity.y = (this.player.speed * damper);
-    }
-
-    // horizontal movement
-    if (this.cursors.left.isDown) {
-      this.player.body.velocity.x = -this.player.speed;
-    } else if (this.cursors.right.isDown) {
-      this.player.body.velocity.x = this.player.speed;
-    }
-
-    // vertical movement
-    if (this.cursors.up.isDown) {
-      this.player.body.velocity.y = -this.player.speed;
-    } else if (this.cursors.down.isDown) {
-      this.player.body.velocity.y = this.player.speed;
-    }
-
-    // mouse/touch movement
-    if (this.game.input.activePointer.isDown &&
-        this.game.physics.arcade.distanceToPointer(this.player) > 15) {
-      this.game.physics.arcade.moveToPointer(this.player, this.player.speed);
-    }
-
     // attacking
     if (this.input.keyboard.isDown(Phaser.Keyboard.Z) ||
         this.input.activePointer.isDown) {
@@ -361,6 +335,61 @@ BasicGame.Game.prototype = {
         this.fire();
       }
     }
+
+    // diagonal movement
+    if (this.cursors.left.isDown && this.cursors.up.isDown) {
+      this.player.body.velocity.x = -(this.player.speed * damper);
+      this.player.body.velocity.y = -(this.player.speed * damper);
+      this.sea.autoScroll(10, 20);
+      return;
+    } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
+      this.player.body.velocity.x = -(this.player.speed * damper);
+      this.player.body.velocity.y = (this.player.speed * damper);
+      this.sea.autoScroll(10, 1);
+      return;
+    }
+
+    if (this.cursors.right.isDown && this.cursors.up.isDown) {
+      this.player.body.velocity.x = (this.player.speed * damper);
+      this.player.body.velocity.y = -(this.player.speed * damper);
+      this.sea.autoScroll(-10, 20);
+      return;
+    } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
+      this.player.body.velocity.x = (this.player.speed * damper);
+      this.player.body.velocity.y = (this.player.speed * damper);
+      this.sea.autoScroll(-10, 1);
+      return;
+    }
+
+    // horizontal movement
+    if (this.cursors.left.isDown) {
+      this.player.body.velocity.x = -this.player.speed;
+      this.sea.autoScroll(10, 5);
+      return;
+    } else if (this.cursors.right.isDown) {
+      this.player.body.velocity.x = this.player.speed;
+      this.sea.autoScroll(-10, 5);
+      return;
+    }
+
+    // vertical movement
+    if (this.cursors.up.isDown) {
+      this.player.body.velocity.y = -this.player.speed;
+      this.sea.autoScroll(0, 20);
+      return;
+    } else if (this.cursors.down.isDown) {
+      this.player.body.velocity.y = this.player.speed;
+      this.sea.autoScroll(0, 1);
+      return;
+    }
+
+    // mouse/touch movement
+    if (this.game.input.activePointer.isDown &&
+        this.game.physics.arcade.distanceToPointer(this.player) > 15) {
+      this.game.physics.arcade.moveToPointer(this.player, this.player.speed);
+    }
+
+    this.sea.autoScroll(0, 5);
   },
 
   processDelayedEffects: function () {
@@ -430,33 +459,6 @@ BasicGame.Game.prototype = {
     // this.game.debug.body(this.player);
   },
 
-  quitGame: function (pointer) {
-
-    //  Here you should destroy anything you no longer need.
-    //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
-    this.sea.destroy();
-    this.player.destroy();
-    this.enemyPool.destroy();
-    this.bulletPool.destroy();
-    this.explosionPool.destroy();
-    this.shooterPool.destroy();
-    this.enemyBulletPool.destroy();
-    this.powerUpPool.destroy();
-    this.bossPool.destroy();
-
-    this.instructions.destroy();
-    this.scoreText.destroy();
-    this.endText.destroy();
-    this.returnText.destroy();
-
-    this.powerUpDisplay.destroy();
-    this.lives.destroy();
-
-    //  Then let's go back to the main menu.
-    this.state.start('MainMenu');
-
-  },
-
   fire: function() {
     // delay -- No firing if dead either!
     if (!this.player.alive || this.nextShotAt > this.time.now) {
@@ -490,6 +492,7 @@ BasicGame.Game.prototype = {
           -85 + i * 10, 500, bullet.body.velocity);
       }
     }
+    this.sndPlayerFire.play();
   },
 
   playerHit: function (player, enemy) {
@@ -527,6 +530,10 @@ BasicGame.Game.prototype = {
         bullet.reset(enemy.x, enemy.y);
         this.physics.arcade.moveToObject(bullet, this.player, 150);
         enemy.nextShotAt = this.time.now + this.shooterShotDelay;
+        this.sndEnemyFire.play(); // dont like this here
+                                  // this looks like it plays for every
+                                  // enemy firing, even if they are firing
+                                  // at the same time... waste of resources.
       }
     }, this);
 
@@ -556,12 +563,15 @@ BasicGame.Game.prototype = {
             rightBullet, this.player.x + i * 100, this.player.y, 150);
         }
       }
+      this.sndEnemyFire.play();
     }
   },
 
   damageEnemy: function (enemy, damage) {
+    this.textFX(enemy);
     enemy.damage(damage);
     if (enemy.alive) {
+      this.tweenFX(enemy); // testing for tween spam
       enemy.play('hit');
     } else {
       this.explode(enemy);
@@ -576,6 +586,29 @@ BasicGame.Game.prototype = {
         this.displayEnd(true);
       }
     }
+  },
+
+  tweenFX: function (npc) {
+    var duration = 150; // this is fast enough that the sprites return to their
+                        // original position when tween-spammed.
+    this.add.tween(npc).from({y: npc.y - 10}, duration, Phaser.Easing.Back.Out, true);
+  },
+
+  textFX: function (npc) {
+    // add a sprite from the wordPool with a lifespan of 150 offset from the npc location
+    // at a random rotation?
+    var i = Math.floor(Math.random() * 16);
+    var word = this.add.sprite(
+      npc.x - 10, npc.y - 10, "batwords", i);
+    word.scale = {'x': 0.25, 'y': 0.25};
+    word.anchor.setTo(0.5, 0.5);
+    word.lifespan = 150;
+    this.wordTween(word);
+  },
+
+  wordTween: function(word) {
+    this.add.tween(word).to({x: word.x - 20, y: word.y - 20}, word.lifespan, Phaser.Easing.Linear.Out, true);
+    this.add.tween(word).to({alpha: 0}, word.lifespan, Phaser.Easing.Linear.Out, true);
   },
 
   spawnPowerUp: function(enemy) {
@@ -609,6 +642,11 @@ BasicGame.Game.prototype = {
     // add the original sprite's velocity to the explosion
     explosion.body.velocity.x = sprite.body.velocity.x;
     explosion.body.velocity.y = sprite.body.velocity.y;
+    if (sprite.key === 'player') {
+      this.sndPlayerExplosion.play();
+    } else {
+      this.sndExplosion.play();
+    }
   },
 
   spawnBoss: function() {
@@ -633,5 +671,44 @@ BasicGame.Game.prototype = {
     this.endText.anchor.setTo(0.5, 0);
     this.showReturn = this.time.now + 2000;
   },
+
+  quitGame: function (pointer) {
+
+    //  Here you should destroy anything you no longer need.
+    //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
+    this.sea.destroy();
+    this.player.destroy();
+    this.enemyPool.destroy();
+    this.bulletPool.destroy();
+    this.explosionPool.destroy();
+    this.shooterPool.destroy();
+    this.enemyBulletPool.destroy();
+    this.powerUpPool.destroy();
+    this.bossPool.destroy();
+
+    this.instructions.destroy();
+    this.scoreText.destroy();
+    this.endText.destroy();
+    this.returnText.destroy();
+
+    this.powerUpDisplay.destroy();
+    this.lives.destroy();
+
+    this.sndExplosion.stop();
+    this.sndPlayerExplosion.stop();
+    this.sndEnemyFire.stop();
+    this.sndPlayerFire.stop();
+    this.sndPowerUp.stop();
+
+    this.sndExplosion = null;
+    this.sndPlayerExplosion = null;
+    this.sndEnemyFire = null;
+    this.sndPlayerFire = null;
+    this.sndPowerUp = null;
+
+    //  Then let's go back to the main menu.
+    this.state.start('MainMenu');
+
+  }
 
 };

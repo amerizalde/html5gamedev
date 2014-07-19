@@ -20,6 +20,7 @@ BasicGame.Game.prototype = {
     this.setupExplosions();
     this.setupPlayerIcons();
     this.setupText();
+    this.setupSound();
 
     // the controls
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -224,6 +225,15 @@ BasicGame.Game.prototype = {
     }
   },
 
+  setupSound: function () {
+    this.sndExplosion = this.add.audio('explosion');
+    this.sndPlayerExplosion = this.add.audio('playerExplosion');
+    this.sndEnemyFire = this.add.audio('enemyFire');
+    this.sndPlayerFire = this.add.audio('playerFire');
+    this.sndPlayerFire.volume = 0.5;
+    this.sndPowerUp = this.add.audio('powerUp');
+  },
+
   // update-related functions
   checkCollisions: function () {
     // Bullet/ Greenie Collision
@@ -265,6 +275,7 @@ BasicGame.Game.prototype = {
     // increment score
     this.addToScore(powerUp.reward);
     powerUp.kill();
+    this.sndPowerUp.play();
     // increase weapon level
     if (this.weaponLevel < 5) {
       this.weaponLevel++;
@@ -481,6 +492,7 @@ BasicGame.Game.prototype = {
           -85 + i * 10, 500, bullet.body.velocity);
       }
     }
+    this.sndPlayerFire.play();
   },
 
   playerHit: function (player, enemy) {
@@ -518,6 +530,10 @@ BasicGame.Game.prototype = {
         bullet.reset(enemy.x, enemy.y);
         this.physics.arcade.moveToObject(bullet, this.player, 150);
         enemy.nextShotAt = this.time.now + this.shooterShotDelay;
+        this.sndEnemyFire.play(); // dont like this here
+                                  // this looks like it plays for every
+                                  // enemy firing, even if they are firing
+                                  // at the same time... waste of resources.
       }
     }, this);
 
@@ -547,6 +563,7 @@ BasicGame.Game.prototype = {
             rightBullet, this.player.x + i * 100, this.player.y, 150);
         }
       }
+      this.sndEnemyFire.play();
     }
   },
 
@@ -625,6 +642,11 @@ BasicGame.Game.prototype = {
     // add the original sprite's velocity to the explosion
     explosion.body.velocity.x = sprite.body.velocity.x;
     explosion.body.velocity.y = sprite.body.velocity.y;
+    if (sprite.key === 'player') {
+      this.sndPlayerExplosion.play();
+    } else {
+      this.sndExplosion.play();
+    }
   },
 
   spawnBoss: function() {
@@ -671,6 +693,18 @@ BasicGame.Game.prototype = {
 
     this.powerUpDisplay.destroy();
     this.lives.destroy();
+
+    this.sndExplosion.stop();
+    this.sndPlayerExplosion.stop();
+    this.sndEnemyFire.stop();
+    this.sndPlayerFire.stop();
+    this.sndPowerUp.stop();
+
+    this.sndExplosion = null;
+    this.sndPlayerExplosion = null;
+    this.sndEnemyFire = null;
+    this.sndPlayerFire = null;
+    this.sndPowerUp = null;
 
     //  Then let's go back to the main menu.
     this.state.start('MainMenu');

@@ -62,7 +62,7 @@ BasicGame.Game.prototype = {
     this.enemyPool.setAll('outOfBoundsKill', true);
     this.enemyPool.setAll('checkWorldBounds', true);
     this.enemyPool.setAll('reward', 100, false, false, 0, true);
-    this.enemyPool.setAll('dropRate', 0.3, false, false, 0, true);
+    this.enemyPool.setAll('dropRate', 0.1, false, false, 0, true);
     // sets the animation for each sprite
     this.enemyPool.forEach(function(enemy) {
       enemy.animations.add('fly', [0, 1, 2], 20, true);
@@ -74,7 +74,7 @@ BasicGame.Game.prototype = {
     // spawn when game starts
     this.nextEnemyAt = 0;
     this.enemyDelay = 1000;
-    this.enemyInitialHealth = 2;
+    this.enemyInitialHealth = 4;
 
     // Shooters
     this.shooterPool = this.add.group();
@@ -99,7 +99,7 @@ BasicGame.Game.prototype = {
     this.nextShooterAt = this.time.now + 5000;
     this.shooterDelay = 3000;
     this.shooterShotDelay = 2000;
-    this.shooterInitialHealth = 5;
+    this.shooterInitialHealth = 10;
 
     // Da Baws
     this.bossPool = this.add.group();
@@ -448,33 +448,6 @@ BasicGame.Game.prototype = {
     // this.game.debug.body(this.player);
   },
 
-  quitGame: function (pointer) {
-
-    //  Here you should destroy anything you no longer need.
-    //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
-    this.sea.destroy();
-    this.player.destroy();
-    this.enemyPool.destroy();
-    this.bulletPool.destroy();
-    this.explosionPool.destroy();
-    this.shooterPool.destroy();
-    this.enemyBulletPool.destroy();
-    this.powerUpPool.destroy();
-    this.bossPool.destroy();
-
-    this.instructions.destroy();
-    this.scoreText.destroy();
-    this.endText.destroy();
-    this.returnText.destroy();
-
-    this.powerUpDisplay.destroy();
-    this.lives.destroy();
-
-    //  Then let's go back to the main menu.
-    this.state.start('MainMenu');
-
-  },
-
   fire: function() {
     // delay -- No firing if dead either!
     if (!this.player.alive || this.nextShotAt > this.time.now) {
@@ -578,9 +551,10 @@ BasicGame.Game.prototype = {
   },
 
   damageEnemy: function (enemy, damage) {
+    this.textFX(enemy);
     enemy.damage(damage);
     if (enemy.alive) {
-      // this is where the tween goes
+      this.tweenFX(enemy); // testing for tween spam
       enemy.play('hit');
     } else {
       this.explode(enemy);
@@ -595,6 +569,29 @@ BasicGame.Game.prototype = {
         this.displayEnd(true);
       }
     }
+  },
+
+  tweenFX: function (npc) {
+    var duration = 150; // this is fast enough that the sprites return to their
+                        // original position when tween-spammed.
+    this.add.tween(npc).from({y: npc.y - 10}, duration, Phaser.Easing.Back.Out, true);
+  },
+
+  textFX: function (npc) {
+    // add a sprite from the wordPool with a lifespan of 150 offset from the npc location
+    // at a random rotation?
+    var i = Math.floor(Math.random() * 16);
+    var word = this.add.sprite(
+      npc.x - 10, npc.y - 10, "batwords", i);
+    word.scale = {'x': 0.25, 'y': 0.25};
+    word.anchor.setTo(0.5, 0.5);
+    word.lifespan = 150;
+    this.wordTween(word);
+  },
+
+  wordTween: function(word) {
+    this.add.tween(word).to({x: word.x - 20, y: word.y - 20}, word.lifespan, Phaser.Easing.Linear.Out, true);
+    this.add.tween(word).to({alpha: 0}, word.lifespan, Phaser.Easing.Linear.Out, true);
   },
 
   spawnPowerUp: function(enemy) {
@@ -652,5 +649,32 @@ BasicGame.Game.prototype = {
     this.endText.anchor.setTo(0.5, 0);
     this.showReturn = this.time.now + 2000;
   },
+
+  quitGame: function (pointer) {
+
+    //  Here you should destroy anything you no longer need.
+    //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
+    this.sea.destroy();
+    this.player.destroy();
+    this.enemyPool.destroy();
+    this.bulletPool.destroy();
+    this.explosionPool.destroy();
+    this.shooterPool.destroy();
+    this.enemyBulletPool.destroy();
+    this.powerUpPool.destroy();
+    this.bossPool.destroy();
+
+    this.instructions.destroy();
+    this.scoreText.destroy();
+    this.endText.destroy();
+    this.returnText.destroy();
+
+    this.powerUpDisplay.destroy();
+    this.lives.destroy();
+
+    //  Then let's go back to the main menu.
+    this.state.start('MainMenu');
+
+  }
 
 };

@@ -46,7 +46,6 @@ BasicGame.Game.prototype = {
     this.gp1.scale = {'x': 0.5, 'y': 0.5};
     this.gp1.health = 500;
     this.game.physics.enable(this.gp1, Phaser.Physics.ARCADE);
-    console.log(this.gp1);
   },
 
   setupBullets: function () {

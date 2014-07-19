@@ -2,7 +2,7 @@
 <data version="1.0">
     <struct type="Settings">
         <key>fileFormatVersion</key>
-        <int>1</int>
+        <int>0</int>
         <key>variation</key>
         <string>main</string>
         <key>verbose</key>
@@ -20,9 +20,9 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>json</string>
+        <string>json-array</string>
         <key>textureFileName</key>
-        <filename>sprites.png</filename>
+        <filename>bat-words.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>ditherType</key>
@@ -87,7 +87,7 @@
             <key>basic</key>
             <struct type="AlgorithmBasicSettings">
                 <key>sortBy</key>
-                <enum type="AlgorithmBasicSettings::SortBy">Area</enum>
+                <enum type="AlgorithmBasicSettings::SortBy">Best</enum>
                 <key>order</key>
                 <enum type="AlgorithmBasicSettings::Order">Ascending</enum>
             </struct>
@@ -99,7 +99,7 @@
             <key>packageName</key>
             <string>Texture</string>
             <key>javaFileName</key>
-            <filename>sprites.java</filename>
+            <filename>bat-words.java</filename>
             <key>wrap</key>
             <struct type="AndEngineWrap">
                 <key>s</key>
@@ -111,7 +111,7 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>sprites.json</filename>
+        <filename>bat-words.json</filename>
         <key>mainExtension</key>
         <string></string>
         <key>forceIdenticalLayout</key>
@@ -125,7 +125,7 @@
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
-            <double>1</double>
+            <double>0.5</double>
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>innerPadding</key>
@@ -141,13 +141,28 @@
         </struct>
         <key>fileList</key>
         <array>
-            <filename>playerShip1_green.png</filename>
-            <filename>ufoBlue.png</filename>
-            <filename>ufoGreen.png</filename>
-            <filename>ufoRed.png</filename>
-            <filename>ufoYellow.png</filename>
-            <filename>darkPurple.png</filename>
-            <filename>../../../../../../../GameAssets/kenneyDonation_v9/Art (5810 files)/Space shooter assets (300 assets)/PNG/Lasers/laserGreen03.png</filename>
+            <filename>aieee.png</filename>
+            <filename>arrrgh.png</filename>
+            <filename>awk.png</filename>
+            <filename>bam.png</filename>
+            <filename>bang.png</filename>
+            <filename>bap.png</filename>
+            <filename>biff.png</filename>
+            <filename>bloop.png</filename>
+            <filename>blurp.png</filename>
+            <filename>bonk.png</filename>
+            <filename>clank.png</filename>
+            <filename>clash.png</filename>
+            <filename>clunk.png</filename>
+            <filename>craaak.png</filename>
+            <filename>crash.png</filename>
+            <filename>crunch.png</filename>
+            <filename>eeyow.png</filename>
+            <filename>flrbbb.png</filename>
+            <filename>glipp.png</filename>
+            <filename>kapow.png</filename>
+            <filename>kayo.png</filename>
+            <filename>kerplop.png</filename>
         </array>
         <key>ignoreFileList</key>
         <array/>

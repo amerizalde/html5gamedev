@@ -30,7 +30,8 @@ BasicGame.Preloader.prototype = {
     // ('pick a name', image, json_file, json_object, json_type);
     this.load.atlas('guinea', 'assets/testingGrounds/sprites.png',
       'assets/testingGrounds/sprites.json', null, 1);
-    console.log()
+    this.load.atlas('batwords', 'assets/bat-words/bat-words.png',
+      'assets/bat-words/bat-words.json', null, 0);
     /*
     0: Phaser.Loader.TEXTURE_ATLAS_JSON_ARRAY
     1: Phaser.Loader.TEXTURE_ATLAS_JSON_HASH

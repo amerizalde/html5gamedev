@@ -8,6 +8,14 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":256,"h":256},
 	"sourceSize": {"w":256,"h":256}
 },
+"laserGreen03.png":
+{
+	"frame": {"x":454,"y":2,"w":9,"h":57},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":9,"h":57},
+	"sourceSize": {"w":9,"h":57}
+},
 "playerShip1_green.png":
 {
 	"frame": {"x":260,"y":2,"w":99,"h":75},
@@ -47,8 +55,7 @@
 	"trimmed": false,
 	"spriteSourceSize": {"x":0,"y":0,"w":91,"h":91},
 	"sourceSize": {"w":91,"h":91}
-}
-},
+}},
 "meta": {
 	"app": "http://www.texturepacker.com",
 	"version": "1.0",
@@ -56,6 +63,6 @@
 	"format": "RGBA8888",
 	"size": {"w":512,"h":512},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:e2b25952b4e08506050c271dbe69beef$"
+	"smartupdate": "$TexturePacker:SmartUpdate:5fcff2d9830a30877f7dd8b0705acc4b$"
 }
 }

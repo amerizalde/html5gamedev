@@ -580,6 +580,7 @@ BasicGame.Game.prototype = {
   damageEnemy: function (enemy, damage) {
     enemy.damage(damage);
     if (enemy.alive) {
+      // this is where the tween goes
       enemy.play('hit');
     } else {
       this.explode(enemy);

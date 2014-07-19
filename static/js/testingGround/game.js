@@ -97,6 +97,12 @@ BasicGame.Game.prototype = {
   quitGame: function (pointer) {
     //  Here you should destroy anything you no longer need.
     //  Stop music, delete sprites, purge caches, free resources, all that good stuff.
+    this.player.destroy();
+    this.bg.destroy();
+    this.gp1.destroy();
+    this.gp2.destroy();
+    this.gp3.destroy();
+    this.gp4.destroy();
 
     this.testSnd.stop();
     this.testSnd = null;

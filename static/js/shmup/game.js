@@ -13,6 +13,7 @@ BasicGame.Game.prototype = {
     // (x, y, w, h, name)
     // (x, y, name)
     this.sea = this.add.tileSprite(0, 0, this.game.width, this.game.height, 'sea');
+    // this.sea.autoScroll(0, 2);
     this.setupPlayer();
     this.setupEnemies();
     this.setupBullets();
@@ -25,7 +26,6 @@ BasicGame.Game.prototype = {
   },
 
   update: function () {
-    this.sea.tilePosition.y += 0.2;
     this.checkCollisions();
     this.spawnEnemies();
     this.enemyFire();
@@ -315,43 +315,6 @@ BasicGame.Game.prototype = {
     this.player.body.velocity.x = 0;
     this.player.body.velocity.y = 0;
 
-    // diagonal movement
-    if (this.cursors.left.isDown && this.cursors.up.isDown) {
-      this.player.body.velocity.x = -(this.player.speed * damper);
-      this.player.body.velocity.y = -(this.player.speed * damper);
-    } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
-      this.player.body.velocity.x = -(this.player.speed * damper);
-      this.player.body.velocity.y = (this.player.speed * damper);
-    }
-
-    if (this.cursors.right.isDown && this.cursors.up.isDown) {
-      this.player.body.velocity.x = (this.player.speed * damper);
-      this.player.body.velocity.y = -(this.player.speed * damper);
-    } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
-      this.player.body.velocity.x = (this.player.speed * damper);
-      this.player.body.velocity.y = (this.player.speed * damper);
-    }
-
-    // horizontal movement
-    if (this.cursors.left.isDown) {
-      this.player.body.velocity.x = -this.player.speed;
-    } else if (this.cursors.right.isDown) {
-      this.player.body.velocity.x = this.player.speed;
-    }
-
-    // vertical movement
-    if (this.cursors.up.isDown) {
-      this.player.body.velocity.y = -this.player.speed;
-    } else if (this.cursors.down.isDown) {
-      this.player.body.velocity.y = this.player.speed;
-    }
-
-    // mouse/touch movement
-    if (this.game.input.activePointer.isDown &&
-        this.game.physics.arcade.distanceToPointer(this.player) > 15) {
-      this.game.physics.arcade.moveToPointer(this.player, this.player.speed);
-    }
-
     // attacking
     if (this.input.keyboard.isDown(Phaser.Keyboard.Z) ||
         this.input.activePointer.isDown) {
@@ -361,6 +324,61 @@ BasicGame.Game.prototype = {
         this.fire();
       }
     }
+
+    // diagonal movement
+    if (this.cursors.left.isDown && this.cursors.up.isDown) {
+      this.player.body.velocity.x = -(this.player.speed * damper);
+      this.player.body.velocity.y = -(this.player.speed * damper);
+      this.sea.autoScroll(10, 20);
+      return;
+    } else if (this.cursors.left.isDown && this.cursors.down.isDown) {
+      this.player.body.velocity.x = -(this.player.speed * damper);
+      this.player.body.velocity.y = (this.player.speed * damper);
+      this.sea.autoScroll(10, 1);
+      return;
+    }
+
+    if (this.cursors.right.isDown && this.cursors.up.isDown) {
+      this.player.body.velocity.x = (this.player.speed * damper);
+      this.player.body.velocity.y = -(this.player.speed * damper);
+      this.sea.autoScroll(-10, 20);
+      return;
+    } else if (this.cursors.right.isDown && this.cursors.down.isDown) {
+      this.player.body.velocity.x = (this.player.speed * damper);
+      this.player.body.velocity.y = (this.player.speed * damper);
+      this.sea.autoScroll(-10, 1);
+      return;
+    }
+
+    // horizontal movement
+    if (this.cursors.left.isDown) {
+      this.player.body.velocity.x = -this.player.speed;
+      this.sea.autoScroll(10, 5);
+      return;
+    } else if (this.cursors.right.isDown) {
+      this.player.body.velocity.x = this.player.speed;
+      this.sea.autoScroll(-10, 5);
+      return;
+    }
+
+    // vertical movement
+    if (this.cursors.up.isDown) {
+      this.player.body.velocity.y = -this.player.speed;
+      this.sea.autoScroll(0, 20);
+      return;
+    } else if (this.cursors.down.isDown) {
+      this.player.body.velocity.y = this.player.speed;
+      this.sea.autoScroll(0, 1);
+      return;
+    }
+
+    // mouse/touch movement
+    if (this.game.input.activePointer.isDown &&
+        this.game.physics.arcade.distanceToPointer(this.player) > 15) {
+      this.game.physics.arcade.moveToPointer(this.player, this.player.speed);
+    }
+
+    this.sea.autoScroll(0, 5);
   },
 
   processDelayedEffects: function () {

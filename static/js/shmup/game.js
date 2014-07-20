@@ -21,6 +21,7 @@ BasicGame.Game.prototype = {
     this.setupPlayerIcons();
     this.setupText();
     this.setupSound();
+    this.setupMusic();
 
     // the controls
     this.cursors = this.input.keyboard.createCursorKeys();
@@ -232,6 +233,16 @@ BasicGame.Game.prototype = {
     this.sndPlayerFire = this.add.audio('playerFire');
     this.sndPlayerFire.volume = 0.5;
     this.sndPowerUp = this.add.audio('powerUp');
+  },
+
+  setupMusic: function () {
+    this.musicGame = this.add.audio('game');
+    this.musicGame.play("", 0, 1, true);
+    this.add.tween(this.musicGame)
+      .from({volume: 0}, 1000, Phaser.Easing.Linear.Out, true);
+
+    this.musicBoss = this.add.audio('bossBattle');
+    this.musicEnd = this.add.audio('endgame');
   },
 
   // update-related functions
@@ -650,6 +661,13 @@ BasicGame.Game.prototype = {
   },
 
   spawnBoss: function() {
+    this.add.tween(this.musicGame)
+      .to({volume: 0}, 1000, Phaser.Easing.Linear.Out, true);
+
+    this.musicBoss.play("", 0, 1, true);
+    this.add.tween(this.musicBoss)
+      .from({volume: 0}, 1000, Phaser.Easing.Linear.Out, true);
+
     this.bossApproaching = true;
     this.boss.reset(this.game.width / 2, 0, this.bossInitialHealth);
     this.game.physics.enable(this.boss, Phaser.Physics.ARCADE);
@@ -662,6 +680,16 @@ BasicGame.Game.prototype = {
     if (this.endText && this.endText.exists) {
       return;
     }
+
+    // CROSSFADE -----
+    this.add.tween(this.musicBoss)
+      .to({volume: 0}, 1000, Phaser.Easing.Linear.Out, true);
+
+    this.musicEnd.play("", 0, 1, true);
+    this.add.tween(this.musicEnd)
+      .from({volume: 0}, 1000, Phaser.Easing.Linear.Out, true);
+    // ---------------
+
     var msg = win ? 'You Win!!!' : 'Game Over!';
     this.endText = this.add.text(
       this.game.width / 2,
@@ -700,11 +728,19 @@ BasicGame.Game.prototype = {
     this.sndPlayerFire.stop();
     this.sndPowerUp.stop();
 
+    this.musicGame.stop();
+    this.musicBoss.stop();
+    this.musicEnd.stop();
+
     this.sndExplosion = null;
     this.sndPlayerExplosion = null;
     this.sndEnemyFire = null;
     this.sndPlayerFire = null;
     this.sndPowerUp = null;
+
+    this.musicGame = null;
+    this.musicBoss = null;
+    this.musicEnd = null;
 
     //  Then let's go back to the main menu.
     this.state.start('MainMenu');

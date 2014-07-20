@@ -4,7 +4,7 @@ BasicGame.Preloader = function (game) {
   this.background = null;
   this.preloadBar = null;
 
-  //this.ready = false;
+  this.ready = false;
 
 };
 
@@ -36,6 +36,7 @@ BasicGame.Preloader.prototype = {
     this.load.image('bullet',       'assets/shmup/bullet.png');
     this.load.image('enemyBullet',  'assets/shmup/enemy-bullet.png');
     this.load.image('powerup1',     'assets/shmup/powerup1.png');
+    this.load.image('title',        'assets/shmup/title.png');
 
     this.load.audio('explosion',        ['assets/shmup/explodemini.wav']);
     this.load.audio('playerExplosion',  ['assets/shmup/player-explosion.wav']);
@@ -52,6 +53,11 @@ BasicGame.Preloader.prototype = {
     //  + lots of other required assets here
     this.load.atlas('batwords', 'assets/bat-words/bat-words.png',
       'assets/bat-words/bat-words.json', null, 0);
+
+    this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');
+    this.load.audio('game',       'assets/shmup/pixellated_zombies.ogg');
+    this.load.audio('bossBattle', 'assets/shmup/watch_out.ogg');
+    this.load.audio('endgame',    'assets/shmup/sad_Exploring.ogg');
 
   },
 
@@ -73,11 +79,11 @@ BasicGame.Preloader.prototype = {
     //  If you don't have any music in your game then put the game.state.start line into the create function and delete
     //  the update function completely.
 
-    //if (this.cache.isSoundDecoded('titleMusic') && this.ready == false)
-    //{
-    //  this.ready = true;
+    if (this.cache.isSoundDecoded('pregame') && this.ready == false)
+    {
+      this.ready = true;
       this.state.start('MainMenu');
-    //}
+    }
 
   }
 

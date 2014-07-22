@@ -26,16 +26,31 @@ BasicGame.Preloader.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
     //  Here we load the rest of the assets our game needs.
-    this.load.image('background',   'assets/peppermintFalls/background.png');
     this.load.atlas(
-      'peppermintFalls',
-      'assets/peppermintFalls/peppermintFalls.png',
-      'assets/peppermintFalls/peppermintFalls.json',
+      'backgrounds',
+      'assets/peppermintFalls/backgrounds.png',
+      'assets/peppermintFalls/backgrounds.json',
       null,
-      1);
+      1); // hash
+    this.load.atlas(
+      'misc',
+      'assets/peppermintFalls/misc.png',
+      'assets/peppermintFalls/misc.json',
+      null,
+      1); // hash
+    this.load.atlas(
+      'grubby',
+      'assets/peppermintFalls/grubby.png',
+      'assets/peppermintFalls/grubby.json',
+      null,
+      0); // array
     //  + lots of other required assets here
-    this.load.atlas('batwords', 'assets/bat-words/bat-words.png',
-      'assets/bat-words/bat-words.json', null, 0);
+    this.load.atlas(
+      'batwords',
+      'assets/bat-words/bat-words.png',
+      'assets/bat-words/bat-words.json',
+      null,
+      0);
 
     /*this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');
     this.load.audio('game',       'assets/shmup/pixellated_zombies.ogg');

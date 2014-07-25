@@ -11,63 +11,17 @@
     <link href="/static/css/bootstrap.min.css" rel="stylesheet">
     <!-- Game Font -->
     <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+    <link href="/static/css/spritesheet_remix/style.css" rel="stylesheet">
     <style>
-    [draggable] {
-        -moz-user-select: none;
-        -khtml-user-select: none;
-        -webkit-user-select: none;
-        -user-select: none;
+    body {
+      margin: 0 0 1px 0;
+      background: #333;
     }
-
-    .column {
-      height: 150px;
-      width: 150px;
-      float: left;
-      border: 2px solid #666666;
-      background-color: #ccc;
-      margin-right: 5px;
-      -webkit-border-radius: 10px;
-      -ms-border-radius: 10px;
-      -moz-border-radius: 10px;
-      border-radius: 10px;
-      -webkit-box-shadow: inset 0 0 3px #000;
-      -ms-box-shadow: inset 0 0 3px #000;
-      box-shadow: inset 0 0 3px #000;
-      text-align: center;
-      cursor: pointer; /*a handy pointer! */
+    #gameContainer canvas{
+      margin: 0 auto;
+      padding: 0;
+      border: 0;
     }
-    .column header {
-      color: #fff;
-      text-shadow: #000 0 1px;
-      box-shadow: 5px;
-      padding: 5px;
-      background: -moz-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
-      background: -webkit-gradient(linear, left top, right top,
-                                   color-stop(0, rgb(0,0,0)),
-                                   color-stop(0.50, rgb(79,79,79)),
-                                   color-stop(1, rgb(21,21,21)));
-      background: -webkit-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
-      background: -ms-linear-gradient(left center, rgb(0,0,0), rgb(79,79,79), rgb(21,21,21));
-      border-bottom: 1px solid #ddd;
-      -webkit-border-top-left-radius: 10px;
-      -moz-border-radius-topleft: 10px;
-      -ms-border-radius-topleft: 10px;
-      border-top-left-radius: 10px;
-      -webkit-border-top-right-radius: 10px;
-      -ms-border-top-right-radius: 10px;
-      -moz-border-radius-topright: 10px;
-      border-top-right-radius: 10px;
-    }
-    .column.over {
-        border: 2px dashed #ff0000;
-    }
-
-    .column .count {
-        padding-top: 15px;
-        font-weight: bold;
-        text-shadow: #fff 0 1px;
-    }
-
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -77,105 +31,23 @@
     <![endif]-->
 </head>
 <body>
-    <ul class="breadcrumb">
-        <li><a href="/">Game Development Studies</a></li>
-        <li><a href="#">Tools</a></li>
-        <li class="active">Spritesheet Remixer</li>
-    </ul>
-    <div class="panel panel-default">
-        <div class="panel-heading">Arrange frames here as you would like</div>
-        <div class="panel-body" id="columns">
-        <!--    The idea is to add the frames here when the user clicks on them
-                from the side-panel. Also need to work out removal from here.
-        -->
-            <div class="column" draggable="true">
-                <header>A</header>
-                <div class="count" data-col-clicks="0">clicks: 0</div>
-            </div>
-            <div class="column" draggable="true">
-                <header>B</header>
-                <div class="count" data-col-clicks="0">clicks: 0</div>
-            </div>
-            <div class="column" draggable="true">
-                <header>C</header>
-                <div class="count" data-col-clicks="0">clicks: 0</div>
-            </div>
-        </div>
-    </div>
+
+<ul class="breadcrumb">
+    <li><a href="/">Game Development Studies</a></li>
+    <li><a href="#">Tools</a></li>
+    <li class="active">Spritesheet Remixer</li>
+</ul>
+<div id="gameContainer"></div>
 
 </body>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/js/bootstrap.min.js"></script>
-<script>
-// swap space
-var dragSrcEl = null;
-
-// callback that changes the object's opacity to 0.4
-function handleDragStart(e) {
-    // this.style.opacity = '0.4';
-
-    dragSrcEl = this;
-
-    e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/html', this.innerHTML);
-}
-
-// callback that allows the drop
-function handleDragOver(e) {
-    if (e.preventDefault) {
-        e.preventDefault();
-    }
-    e.dataTransfer.dropEffect = 'move';
-
-    return false;
-};
-
-// occurs as soon as the draggable enter the element space
-function handleDragEnter(e) {
-    // this / e.target is the current hover target.
-    this.classList.add('over');
-}
-
-// occurs as soon as the draggable leaves the element space
-function handleDragLeave(e) {
-    // this / e.target is previous element.
-    this.classList.remove('over');
-}
-
-function handleDrop(e) {
-    // this / e.target is current target element.
-    if (e.stopPropagation) {
-        e.stopPropagation(); // stop the redirect
-    }
-
-    // don't do anything if we are dropping on the same spot.
-    if (dragSrcEl != this){
-        // swap the element html with what's in the swap space
-        dragSrcEl.innerHTML = this.innerHTML;
-        this.innerHTML = e.dataTransfer.getData('text/html');
-    }
-
-    return false;
-}
-
-function handleDragEnd(e) {
-    // this / e.target is the source node.
-    [].forEach.call(cols, function (col) {
-        col.classList.remove('over');
-    });
-}
-
-var cols = document.querySelectorAll('#columns .column');
-[].forEach.call(cols, function(col) {
-    col.addEventListener('dragstart', handleDragStart, false);
-    col.addEventListener('dragenter', handleDragEnter, false);
-    col.addEventListener('dragover', handleDragOver, false);
-    col.addEventListener('dragleave', handleDragLeave, false);
-    col.addEventListener('drop', handleDrop, false);
-    col.addEventListener('dragend', handleDragEnd, false);
-});
-
-</script>
+<script src="/static/js/phaser-arcade-physics.min.js"></script>
+<script src="/static/js/spritesheet_remix/app.js"></script>
+<script src="/static/js/spritesheet_remix/boot.js"></script>
+<script src="/static/js/spritesheet_remix/preloader.js"></script>
+<script src="/static/js/spritesheet_remix/mainMenu.js"></script>
+<script src="/static/js/spritesheet_remix/game.js"></script>
 </html>

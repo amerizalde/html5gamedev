@@ -35,7 +35,6 @@ BasicGame.MainMenu.prototype = {
       this.camera.height - 32,
       "Copyright (c) 2014 Andrew Merizalde",
       { font: "12px monospace", fill: "#ff00ff", align: "center"}).anchor.setTo(0.5, 0.5);
-    console.log("create complete");
   },
 
   update: function () {

@@ -9,11 +9,20 @@ BasicGame.Game.prototype = {
 
   create: function () {
     // sprites are loaded in the order added here.
-    this.bg = this.add.tilemap('level');
-    this.bg.addTilesetImage('level_sheet', 'tiles');
-    var layer = this.bg.createLayer('layer_1');
-    layer.resizeWorld();
-    layer.wrap = true;
+    this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
+    
+    // gui buttons
+
+    // load
+    this.btnLoad = this.add.button(
+      0, 0,               // x, y
+      'gui',              // atlas key
+      null, null,         // callback function, callbackContext?
+      /* --- WHAT WILL IT LOOK LIKE IN THIS EVENT? --- */
+      "blue_button01.png",  // on enter
+      "blue_button01.png",  // on leave
+      "blue_button01.png",  // on click
+      "blue_button01.png"); // on release
   },
 
 /*  setupPlayer: function () {
@@ -46,24 +55,6 @@ BasicGame.Game.prototype = {
     console.log("player setup complete");
   },
 
-  setupDrops: function () {
-    this.candyPool = this.add.group();
-    this.candyPool.enableBody = true;
-    this.candyPool.physicsBodyType = Phaser.Physics.ARCADE;
-    this.candyPool.createMultiple(50, 'misc', "candyDrop.png");
-    this.candyPool.setAll('anchor.x', 0.5);
-    this.candyPool.setAll('anchor.y', 0.5);
-    this.candyPool.setAll('scale.x', 2);
-    this.candyPool.setAll('scale.y', 2);
-    this.candyPool.setAll('outOfBoundsKill', true);
-    this.candyPool.setAll('checkWorldBounds', true);
-    this.candyPool.setAll('reward', 100, false, false, 0, true);
-
-    // spawn when game starts
-    this.nextCandyAt = 0;
-    this.candyDelay = 1000;
-  },*/
-
   // update-related functions
   update: function () {
     if (this.input.keyboard.isDown(Phaser.Keyboard.Z) ||
@@ -90,24 +81,9 @@ BasicGame.Game.prototype = {
     }
   },
 
-  checkCollision: function () {
-  },
-
-  gobble: function (player, candy) {
-    if (candy.frameName !== 'sprout.png') {
-      this.eat(candy);
-    } else {
-      // eww, sprouts!
-    }
-  },
-
-  eat: function (candy) {
-    this.score += candy.reward;
-    candy.kill();
-  },
-
   quitGame: function (pointer) {
     //  Then let's go back to the main menu.
     this.state.start('Boot');
   },
+*/
 };

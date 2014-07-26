@@ -41,6 +41,12 @@ BasicGame.Preloader.prototype = {
       null,
       1);
 
+    this.load.spritesheet('p1_left','assets/spritesheet_remix/p1_left.png', 66, 92, 16);
+    this.load.spritesheet(
+      'p1_right',
+      'assets/spritesheet_remix/p1_right.png',
+      66, 92, 16
+      );
     /*
     this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');
     this.load.audio('game',       'assets/shmup/pixellated_zombies.ogg');

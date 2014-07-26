@@ -10,41 +10,114 @@ BasicGame.Game.prototype = {
   create: function () {
 
     // sprites are loaded in the order added here.
-    this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
+    //this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
 
+    this.setupButtons();
+    /*
+    this.batwords = this.add.sprite(0, 0, 'batwords');
+    this.batwords.scale = {'x': 0.25, 'y': 0.25};
+    this.batwords.inputEnabled = true;
+    this.batwords.events.onInputDown.add(function (word) {
+      if (word.frame < word.animations.frameTotal - 1) {
+        word.frame += 1;
+      } else {
+        word.frame = 0;
+      }
+    }, this.batwords);
+    console.log(this.batwords);
+    */
+    // this.setupFramesManager('batwords');
+    this.fullanim = this.add.sprite(20, 20, 'p1_left');
+    this.fullanim.animations.add('full');
+    this.fullanim.play('full', 10, true);
+    // this.setupSpriteManager('p1_left');
+
+
+  },
+  setupSpriteManager: function (sheet) {
+    console.log(this.cache.getFrameData(sheet));
+    var data = this.cache.getFrameData(sheet);
+    var img;
+    var cx = 0;
+    var cy = 0;
+    for (var i = 0; i < data._frames.length; i++) {
+      if (cx >= this.game.width - 60) {
+        cx = 0;
+        cy += 92;
+      }
+      img = this.add.sprite(cx, cy, sheet[i]);
+      img.inputEnabled = true;
+      img.input.enableDrag(true);
+      cx += img.width;
+    }
+  },
+
+  setupFramesManager: function (atlas) {
+    var data = this.cache.getFrameData(atlas);
+    var img;
+    var cx = 0;
+    var cy = 0;
+    for (var i = 0; i < 22; i++) {
+      if (cx >= this.game.width - 60) {
+        cx = 0;
+        cy += 70;
+      }
+      img = this.add.sprite(cx, cy, atlas, data._frames[i].name);
+      img.scale = {'x': 0.25, 'y': 0.25};
+      img.inputEnabled = true;
+      img.input.enableDrag(true);
+      cx += img.width;
+    }
+  },
+
+  setupButtons: function () {
     // gui buttons
     this.buttonPool = this.add.group();
     this.buttonPool.createMultiple(4, 'gui', "buttonSquare_grey.png");
-    this.buttonPool.setAll('anchor', {'x': 0.5, 'y': 0.5});
+    this.buttonPool.setAll('anchor', {'x': 0.5, 'y': 1});
     this.buttonPool.setAll('smoothed', false);
     this.buttonPool.setAll('inputEnabled', true);
     for (var i = 1; i < 5; i++){
       var btn = this.buttonPool.getFirstExists(false);
       btn.name = "btn"+i;
       btn.reset(i * btn.width + 2, this.camera.height / 2);
-      console.log(btn.events);
+      // console.log(btn.events);
       // fix for 2.0.6 broken buttons
       btn.events.onInputDown.add(this.onDownFix, btn);
       btn.events.onInputUp.add(this.onUpFix, btn);
       btn.events.onInputOver.add(this.onOverFix, btn);
       btn.events.onInputOut.add(this.onOutFix, btn);
     }
+
+    /*
+    // load button
+    this.loadBtn = this.add.sprite(
+      this.game.width / 2,
+      this.game.height / 2,
+      'gui',
+      "buttonSquare_grey.png");
+    this.loadBtn.anchor = {'x': 0.5, 'y': 0.5};
+    this.loadBtn.smoothed = false;
+    // sprite-to-button functionality
+    this.loadBtn.inputEnabled = true;
+    this.loadBtn.events.onInputDown.add(this.onDownFix, this.loadBtn);
+    this.loadBtn.events.onInputUp.add(this.onUpFix, this.loadBtn);
+    this.loadBtn.events.onInputOver.add(this.onOverFix, this.loadBtn);
+    this.loadBtn.events.onInputOut.add(this.onOutFix, this.loadBtn);
+    this.loadBtn.name = "load_button";
+    */
   },
 
   onUpFix: function (btn) {
-    console.log('Button Released!');
     btn.frameName = "buttonSquare_grey.png";
   },
   onDownFix: function (btn) {
-    console.log('Button Pressed!');
     btn.frameName = "buttonSquare_grey_pressed.png";
   },
   onOverFix: function (btn) {
-    console.log('Mouse is over ' + btn.name);
     btn.frameName = "buttonSquare_grey_over.png";
   },
   onOutFix: function (btn) {
-    console.log('Mouse has left ' + btn.name);
     btn.frameName = "buttonSquare_grey.png";
   },
 

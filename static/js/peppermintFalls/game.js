@@ -1,7 +1,10 @@
 // create a Game object
 BasicGame.Game = function (game) {
 
-  this.mouseX = null;
+  this.clickCircle = new Phaser.Circle(
+    this.game.width / 2,
+    this.game.height - 100,
+    44);
 };
 
 // add methods and properties
@@ -21,7 +24,8 @@ BasicGame.Game.prototype = {
       'grubby'
     );
     this.player.anchor.setTo(0.5, 0.5);
-    this.player.scale.setTo(4, 4);
+    this.player.scale.setTo(5, 5);
+    this.player.smoothed = false;
     this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
     this.player.body.collideWorldBounds = true;
     this.player.body.velocity.x = 0;
@@ -52,6 +56,7 @@ BasicGame.Game.prototype = {
     this.candyPool.setAll('anchor.y', 0.5);
     this.candyPool.setAll('scale.x', 2);
     this.candyPool.setAll('scale.y', 2);
+    this.candyPool.setAll('smoothed', false);
     this.candyPool.setAll('outOfBoundsKill', true);
     this.candyPool.setAll('checkWorldBounds', true);
     this.candyPool.setAll('reward', 100, false, false, 0, true);
@@ -67,7 +72,8 @@ BasicGame.Game.prototype = {
     this.spawnCandy();
 
     if (this.input.activePointer.isDown) {
-      this.mouseX = this.input.x;
+      this.clickCircle.x = this.input.activePointer.circle.x;
+      this.clickCircle.diameter = this.input.activePointer.circle.diameter;
     }
 
     this.processPlayerInput();
@@ -88,6 +94,11 @@ BasicGame.Game.prototype = {
       this.player.body.velocity.x = -this.player.speed;
     } else if (this.player.x < this.mouseX && Math.abs(this.player.x - this.mouseX) > 15) {
       this.player.body.velocity.x = this.player.speed;
+    }
+
+    if (this.clickCircle.contains(this.player.x, this.player.y)) {
+      this.player.body.velocity.x = 0;
+      this.player.body.velocity.y = 0;
     }
   },
 

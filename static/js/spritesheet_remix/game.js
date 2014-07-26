@@ -8,21 +8,44 @@ BasicGame.Game = function (game) {
 BasicGame.Game.prototype = {
 
   create: function () {
+
     // sprites are loaded in the order added here.
     this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
-    
-    // gui buttons
 
-    // load
-    this.btnLoad = this.add.button(
-      0, 0,               // x, y
-      'gui',              // atlas key
-      null, null,         // callback function, callbackContext?
-      /* --- WHAT WILL IT LOOK LIKE IN THIS EVENT? --- */
-      "blue_button01.png",  // on enter
-      "blue_button01.png",  // on leave
-      "blue_button01.png",  // on click
-      "blue_button01.png"); // on release
+    // gui buttons
+    this.buttonPool = this.add.group();
+    this.buttonPool.createMultiple(4, 'gui', "buttonSquare_grey.png");
+    this.buttonPool.setAll('anchor', {'x': 0.5, 'y': 0.5});
+    this.buttonPool.setAll('smoothed', false);
+    this.buttonPool.setAll('inputEnabled', true);
+    for (var i = 1; i < 5; i++){
+      var btn = this.buttonPool.getFirstExists(false);
+      btn.name = "btn"+i;
+      btn.reset(i * btn.width + 2, this.camera.height / 2);
+      console.log(btn.events);
+      // fix for 2.0.6 broken buttons
+      btn.events.onInputDown.add(this.onDownFix, btn);
+      btn.events.onInputUp.add(this.onUpFix, btn);
+      btn.events.onInputOver.add(this.onOverFix, btn);
+      btn.events.onInputOut.add(this.onOutFix, btn);
+    }
+  },
+
+  onUpFix: function (btn) {
+    console.log('Button Released!');
+    btn.frameName = "buttonSquare_grey.png";
+  },
+  onDownFix: function (btn) {
+    console.log('Button Pressed!');
+    btn.frameName = "buttonSquare_grey_pressed.png";
+  },
+  onOverFix: function (btn) {
+    console.log('Mouse is over ' + btn.name);
+    btn.frameName = "buttonSquare_grey_over.png";
+  },
+  onOutFix: function (btn) {
+    console.log('Mouse has left ' + btn.name);
+    btn.frameName = "buttonSquare_grey.png";
   },
 
 /*  setupPlayer: function () {

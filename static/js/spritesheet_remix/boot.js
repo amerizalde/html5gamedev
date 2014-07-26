@@ -8,7 +8,7 @@ BasicGame.Boot.prototype = {
   preload: function () {
     //  Here we load the assets required for our preloader (in this case a loading bar)
     this.load.image('preloaderBar',
-      'assets/spritesheet_remix/preloaderBar.png');
+      'assets/spritesheet_remix/phaser_pixel_large_shaded.png');
   },
 
   create: function () {

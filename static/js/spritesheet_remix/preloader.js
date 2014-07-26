@@ -36,10 +36,10 @@ BasicGame.Preloader.prototype = {
       0);
     this.load.atlas(
       'gui',
-      'assets/spritesheet_remix/blueSheet.png',
-      'assets/spritesheet_remix/blueSheet.xml',
+      'assets/spritesheet_remix/gui.png',
+      'assets/spritesheet_remix/gui.json',
       null,
-      2);
+      1);
 
     /*
     this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');

@@ -2,6 +2,9 @@
 BasicGame.Game = function (game) {
 
   this.mouseX = null;
+  this.dummy = null;
+  this.previewBox = null;
+  this.framesBox = null;
 };
 
 // add methods and properties
@@ -11,63 +14,50 @@ BasicGame.Game.prototype = {
 
     // sprites are loaded in the order added here.
     //this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
+    this.previewBox = new Phaser.Rectangle(
+      this.camera.view.centerX,
+      this.camera.view.height - 200,
+      100, 100);
+    this.previewBox.anchor = {'x': 0.5, 'y': 0.5};
+
+    this.framesBox = new Phaser.Rectangle(
+      this.game.width / 2,
+      20,
+      this.game.width - 20,
+      this.game.height - 20);
 
     this.setupButtons();
-    /*
-    this.batwords = this.add.sprite(0, 0, 'batwords');
-    this.batwords.scale = {'x': 0.25, 'y': 0.25};
-    this.batwords.inputEnabled = true;
-    this.batwords.events.onInputDown.add(function (word) {
-      if (word.frame < word.animations.frameTotal - 1) {
-        word.frame += 1;
-      } else {
-        word.frame = 0;
-      }
-    }, this.batwords);
-    console.log(this.batwords);
-    */
-    // this.setupFramesManager('batwords');
-    this.fullanim = this.add.sprite(20, 20, 'p1_left');
-    this.fullanim.animations.add('full');
-    this.fullanim.play('full', 10, true);
-    // this.setupSpriteManager('p1_left');
+    this.setupFramesManager('p1_walk');
+    this.preview('p1_walk', null, 10);
 
 
-  },
-  setupSpriteManager: function (sheet) {
-    console.log(this.cache.getFrameData(sheet));
-    var data = this.cache.getFrameData(sheet);
-    var img;
-    var cx = 0;
-    var cy = 0;
-    for (var i = 0; i < data._frames.length; i++) {
-      if (cx >= this.game.width - 60) {
-        cx = 0;
-        cy += 92;
-      }
-      img = this.add.sprite(cx, cy, sheet[i]);
-      img.inputEnabled = true;
-      img.input.enableDrag(true);
-      cx += img.width;
-    }
   },
 
   setupFramesManager: function (atlas) {
     var data = this.cache.getFrameData(atlas);
+    console.log(data);
     var img;
     var cx = 0;
     var cy = 0;
-    for (var i = 0; i < 22; i++) {
-      if (cx >= this.game.width - 60) {
+    for (var i = 0; i < data._frames.length; i++) {
+      // console.log(this.framesBox.width + ", " + data._frames[i].width);
+      if (cx >= this.framesBox.width - data._frames[i].width) {
         cx = 0;
-        cy += 70;
+        cy += data._frames[i].height;
       }
-      img = this.add.sprite(cx, cy, atlas, data._frames[i].name);
-      img.scale = {'x': 0.25, 'y': 0.25};
+      img = this.add.sprite(cx, cy, atlas, data._frames[i].index);
+      // img.scale = {'x': 0.25, 'y': 0.25};
       img.inputEnabled = true;
-      img.input.enableDrag(true);
+      // img.input.enableDrag(true);
       cx += img.width;
     }
+  },
+
+  preview: function (key, frames, fps) {
+    this.dummy = null; // clear the old animation
+    this.dummy = this.add.sprite(this.previewBox.x, this.previewBox.y, key);
+    this.dummy.animations.add('preview', frames);
+    this.dummy.play('preview', fps, true);
   },
 
   setupButtons: function () {
@@ -119,6 +109,11 @@ BasicGame.Game.prototype = {
   },
   onOutFix: function (btn) {
     btn.frameName = "buttonSquare_grey.png";
+  },
+
+  // built in function
+  render: function () {
+    //this.game.debug.geom(this.previewBox, 'rgba(250, 0, 250, 1)');
   },
 
 /*  setupPlayer: function () {

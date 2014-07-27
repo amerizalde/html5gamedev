@@ -41,11 +41,17 @@ BasicGame.Preloader.prototype = {
       null,
       1);
 
-    this.load.spritesheet('p1_left','assets/spritesheet_remix/p1_left.png', 66, 92, 16);
+    this.load.spritesheet('p1_actions','assets/spritesheet_remix/p1_actions.png',
+      354 / 5,  // image width / # number of columns in the row
+      94,       // image height / number of rows
+      5         // number of actual frames
+      );
     this.load.spritesheet(
-      'p1_right',
-      'assets/spritesheet_remix/p1_right.png',
-      66, 92, 16
+      'p1_walk',
+      'assets/spritesheet_remix/p1_walk_right.png',
+      792 / 11,
+      97,
+      11
       );
     /*
     this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');

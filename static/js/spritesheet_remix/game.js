@@ -3,51 +3,52 @@ BasicGame.Game = function (game) {
 
   this.dummy = null;
   this.previewBox = null;
-  this.framesBox = null;
   this.framesGroup = null;
   this.spritesheet = null;
   this.fps = 24;
   this.resetPreviewArray = false;
+  this.previewState = false;
 
 };
 
-// add methods and properties
 BasicGame.Game.prototype = {
 
+  // built-in create function
   create: function () {
 
     // sprites are loaded in the order added here.
-    //this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
+
+    // previewBox is used for positioning the animation preview.
     this.previewBox = new Phaser.Rectangle(
       this.camera.view.centerX,
       this.camera.view.height - 200,
       100, 100);
     this.previewBox.anchor = {'x': 0.5, 'y': 0.5};
 
-    this.framesBox = new Phaser.Rectangle(
-      this.game.width / 2,
-      20,
-      this.game.width - 20,
-      this.game.height - 20);
-
+    // this contains the spritesheet key
     this.spritesheet = 'p1_walk';
+    // this determines the order of frames played
+    this.previewArray = [0,];
 
+    this.setupText();
     this.setupButtons();
     this.setupFramesManager(this.spritesheet);
-    this.preview(this);
+    this.preview();
 
   },
 
   setupFramesManager: function (atlas) {
-    this.framesGroup = null;
+    if (this.framesGroup) {
+      this.framesGroup.destroy();
+    }
     this.framesGroup = this.add.group();
+    // retrieve the atlas from the cache, to access the frames directly.
     var data = this.cache.getFrameData(atlas);
     var img;
     var cx = 0;
     var cy = 0;
-    this.previewArray = new Array();
     for (var i = 0; i < data._frames.length; i++) {
-      if (cx >= this.framesBox.width - data._frames[i].width) {
+      if (cx >= this.game.width - data._frames[i].width) {
         cx = 0;
         cy += data._frames[i].height;
       }
@@ -63,24 +64,7 @@ BasicGame.Game.prototype = {
   },
 
   setupButtons: function () {
-    /*// gui buttons
-    this.buttonPool = this.add.group();
-    this.buttonPool.createMultiple(4, 'gui', "buttonSquare_grey.png");
-    this.buttonPool.setAll('anchor', {'x': 0.5, 'y': 1});
-    this.buttonPool.setAll('smoothed', false);
-    this.buttonPool.setAll('inputEnabled', true);
-    for (var i = 1; i < 5; i++){
-      var btn = this.buttonPool.getFirstExists(false);
-      btn.name = "btn"+i;
-      btn.reset(i * btn.width + 2, this.camera.height / 2);
-      // console.log(btn.events);
-      // fix for 2.0.6 broken buttons
-      btn.events.onInputDown.add(this.onDownFix, btn);
-      btn.events.onInputUp.add(this.onUpFix, btn);
-      btn.events.onInputOver.add(this.onOverFix, btn);
-      btn.events.onInputOut.add(this.onOutFix, btn);
-    }*/
-
+    // preview button
     this.previewBtn = this.add.sprite(
       this.game.width / 2,
       this.game.height / 2,
@@ -89,11 +73,12 @@ BasicGame.Game.prototype = {
     this.previewBtn.anchor = {'x': 0.5, 'y': 0.5};
     this.previewBtn.inputEnabled = true;
     this.previewBtn.events.onInputDown.add(this.onDownFix, this.previewBtn);
-    this.previewBtn.events.onInputDown.add(this.preview, this.previewBtn.game);
+    this.previewBtn.events.onInputDown.add(this.callPreview, this.previewBtn);
     this.previewBtn.events.onInputUp.add(this.onUpFix, this.previewBtn);
     this.previewBtn.events.onInputOver.add(this.onOverFix, this.previewBtn);
     this.previewBtn.events.onInputOut.add(this.onOutFix, this.previewBtn);
 
+    // reset button
     this.resetBtn = this.add.sprite(
       this.game.width / 2 + this.previewBtn.width,
       this.game.height / 2,
@@ -102,11 +87,25 @@ BasicGame.Game.prototype = {
     this.resetBtn.anchor = {'x': 0.5, 'y': 0.5};
     this.resetBtn.inputEnabled = true;
     this.resetBtn.events.onInputDown.add(this.onDownFix, this.resetBtn);
-    this.resetBtn.events.onInputDown.add(this.resetPreview, this.resetBtn);
+    this.resetBtn.events.onInputDown.add(this.callResetPreview, this.resetBtn);
     this.resetBtn.events.onInputUp.add(this.onUpFix, this.resetBtn);
     this.resetBtn.events.onInputOver.add(this.onOverFix, this.resetBtn);
     this.resetBtn.events.onInputOut.add(this.onOutFix, this.resetBtn);
 
+  },
+
+  setupText: function () {
+    // the current animation frame order.
+    this.add.text(
+      10,
+      this.previewBox.centerY - 20,
+      "Frame Order:",
+      {font: "16px Droid Sans Mono", fill: "#fff", align: "left"});
+    this.codeAssistText = this.add.text(
+      10,
+      this.previewBox.centerY,
+      this.previewArray,
+      {font: "16px Droid Sans Mono", fill: "#fff", align: "left"});
   },
 
   onUpFix: function (btn) {
@@ -129,54 +128,63 @@ BasicGame.Game.prototype = {
     ctx.health += 1;
     frames.push(parseInt(ctx._frame.index));
     ctx.game.state.callbackContext.previewArray = frames;
-    console.log(ctx.game.state.callbackContext.previewArray);
+    // console.log(ctx.game.state.callbackContext.previewArray);
   },
 
-  preview: function (ctx) {
-    // console.log(ctx.game.state.callbackContext.previewArray);
-    var frames = ctx.game.state.callbackContext.previewArray;
-    var key = ctx.game.state.callbackContext.spritesheet;
-    var fps = ctx.game.state.callbackContext.fps;
-    var dummy = ctx.dummy || ctx.game.state.callbackContext.dummy;
-
-    console.log(key, fps);
-    console.log(ctx);
-
-    if (dummy) {
-      dummy.animations.stop();
-      dummy.animations.destroy();
-      dummy.kill();
+  preview: function () {
+    if (this.dummy) {
+      console.log('dummy exists')
+      this.dummy.animations.stop();
+      this.dummy.animations.currentAnim.destroy();
+      // this.dummy.kill();
     } else {
-      dummy = ctx.game.add.sprite(
-        ctx.game.state.callbackContext.previewBox.x,
-        ctx.game.state.callbackContext.previewBox.y,
-        key
+      console.log('creating dummy')
+      this.dummy = this.add.sprite(
+        this.previewBox.x,
+        this.previewBox.y,
+        this.spritesheet
       );
     }
-
-    /*if (ctx.game.state.callbackContext.dummy) {
-      ctx.game.state.callbackContext.dummy.animations.stop();
-      ctx.game.state.callbackContext.dummy.animations.destroy();
-      ctx.game.state.callbackContext.dummy.destroy();
-    }*/
-    dummy.reset(
-      ctx.game.state.callbackContext.previewBox.x,
-      ctx.game.state.callbackContext.previewBox.y
+    console.log('assert dummy exists');
+    this.dummy.reset(
+      this.previewBox.x,
+      this.previewBox.y
       );
-    dummy.animations.add('preview', frames, fps, true, true);
-    dummy.play('preview');
+    console.log('dummy reset');
+    console.log(this.dummy);
+    this.dummy.animations.add(
+      'preview',
+      this.previewArray,
+      this.fps,
+      true,
+      true
+    );
+    console.log('dummy animated');
+    console.log(this.dummy);
+    this.dummy.play('preview');
+    console.log('working');
   },
 
-  resetPreview: function (ctx) {
+  callResetPreview: function (ctx) {
     ctx.game.state.callbackContext.resetPreviewArray = true;
+  },
+
+  callPreview: function(ctx) {
+    ctx.game.state.callbackContext.previewState = true;
   },
 
   // built in functions
   update: function () {
+    if (this.previewState) {
+      this.previewState = false;
+      this.preview();
+      this.codeAssistText.text = this.previewArray;
+    }
     if (this.resetPreviewArray) {
-      this.previewArray = [0,];
       this.resetPreviewArray = false;
-      this.preview(this);
+      this.previewArray = [0,];
+      this.preview();
+      this.codeAssistText.text = this.previewArray;
     }
   },
 

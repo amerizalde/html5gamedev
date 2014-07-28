@@ -1,10 +1,14 @@
 // create a Game object
 BasicGame.Game = function (game) {
 
-  this.mouseX = null;
   this.dummy = null;
   this.previewBox = null;
   this.framesBox = null;
+  this.framesGroup = null;
+  this.spritesheet = null;
+  this.fps = 24;
+  this.resetPreviewArray = false;
+
 };
 
 // add methods and properties
@@ -26,21 +30,23 @@ BasicGame.Game.prototype = {
       this.game.width - 20,
       this.game.height - 20);
 
-    this.setupButtons();
-    this.setupFramesManager('p1_walk');
-    this.preview('p1_walk', null, 10);
+    this.spritesheet = 'p1_walk';
 
+    this.setupButtons();
+    this.setupFramesManager(this.spritesheet);
+    this.preview(this);
 
   },
 
   setupFramesManager: function (atlas) {
+    this.framesGroup = null;
+    this.framesGroup = this.add.group();
     var data = this.cache.getFrameData(atlas);
-    console.log(data);
     var img;
     var cx = 0;
     var cy = 0;
+    this.previewArray = new Array();
     for (var i = 0; i < data._frames.length; i++) {
-      // console.log(this.framesBox.width + ", " + data._frames[i].width);
       if (cx >= this.framesBox.width - data._frames[i].width) {
         cx = 0;
         cy += data._frames[i].height;
@@ -49,19 +55,15 @@ BasicGame.Game.prototype = {
       // img.scale = {'x': 0.25, 'y': 0.25};
       img.inputEnabled = true;
       // img.input.enableDrag(true);
+      img.health = 0;
+      img.events.onInputDown.add(this.use, img);
+      this.framesGroup.add(img);
       cx += img.width;
     }
   },
 
-  preview: function (key, frames, fps) {
-    this.dummy = null; // clear the old animation
-    this.dummy = this.add.sprite(this.previewBox.x, this.previewBox.y, key);
-    this.dummy.animations.add('preview', frames);
-    this.dummy.play('preview', fps, true);
-  },
-
   setupButtons: function () {
-    // gui buttons
+    /*// gui buttons
     this.buttonPool = this.add.group();
     this.buttonPool.createMultiple(4, 'gui', "buttonSquare_grey.png");
     this.buttonPool.setAll('anchor', {'x': 0.5, 'y': 1});
@@ -77,25 +79,34 @@ BasicGame.Game.prototype = {
       btn.events.onInputUp.add(this.onUpFix, btn);
       btn.events.onInputOver.add(this.onOverFix, btn);
       btn.events.onInputOut.add(this.onOutFix, btn);
-    }
+    }*/
 
-    /*
-    // load button
-    this.loadBtn = this.add.sprite(
+    this.previewBtn = this.add.sprite(
       this.game.width / 2,
       this.game.height / 2,
       'gui',
       "buttonSquare_grey.png");
-    this.loadBtn.anchor = {'x': 0.5, 'y': 0.5};
-    this.loadBtn.smoothed = false;
-    // sprite-to-button functionality
-    this.loadBtn.inputEnabled = true;
-    this.loadBtn.events.onInputDown.add(this.onDownFix, this.loadBtn);
-    this.loadBtn.events.onInputUp.add(this.onUpFix, this.loadBtn);
-    this.loadBtn.events.onInputOver.add(this.onOverFix, this.loadBtn);
-    this.loadBtn.events.onInputOut.add(this.onOutFix, this.loadBtn);
-    this.loadBtn.name = "load_button";
-    */
+    this.previewBtn.anchor = {'x': 0.5, 'y': 0.5};
+    this.previewBtn.inputEnabled = true;
+    this.previewBtn.events.onInputDown.add(this.onDownFix, this.previewBtn);
+    this.previewBtn.events.onInputDown.add(this.preview, this.previewBtn.game);
+    this.previewBtn.events.onInputUp.add(this.onUpFix, this.previewBtn);
+    this.previewBtn.events.onInputOver.add(this.onOverFix, this.previewBtn);
+    this.previewBtn.events.onInputOut.add(this.onOutFix, this.previewBtn);
+
+    this.resetBtn = this.add.sprite(
+      this.game.width / 2 + this.previewBtn.width,
+      this.game.height / 2,
+      'gui',
+      "buttonSquare_grey.png");
+    this.resetBtn.anchor = {'x': 0.5, 'y': 0.5};
+    this.resetBtn.inputEnabled = true;
+    this.resetBtn.events.onInputDown.add(this.onDownFix, this.resetBtn);
+    this.resetBtn.events.onInputDown.add(this.resetPreview, this.resetBtn);
+    this.resetBtn.events.onInputUp.add(this.onUpFix, this.resetBtn);
+    this.resetBtn.events.onInputOver.add(this.onOverFix, this.resetBtn);
+    this.resetBtn.events.onInputOut.add(this.onOutFix, this.resetBtn);
+
   },
 
   onUpFix: function (btn) {
@@ -111,70 +122,66 @@ BasicGame.Game.prototype = {
     btn.frameName = "buttonSquare_grey.png";
   },
 
-  // built in function
+  use: function(ctx) {
+    var frames = ctx.game.state.callbackContext.previewArray;
+
+    // console.log(parseInt(ctx._frame.index));
+    ctx.health += 1;
+    frames.push(parseInt(ctx._frame.index));
+    ctx.game.state.callbackContext.previewArray = frames;
+    console.log(ctx.game.state.callbackContext.previewArray);
+  },
+
+  preview: function (ctx) {
+    // console.log(ctx.game.state.callbackContext.previewArray);
+    var frames = ctx.game.state.callbackContext.previewArray;
+    var key = ctx.game.state.callbackContext.spritesheet;
+    var fps = ctx.game.state.callbackContext.fps;
+    var dummy = ctx.dummy || ctx.game.state.callbackContext.dummy;
+
+    console.log(key, fps);
+    console.log(ctx);
+
+    if (dummy) {
+      dummy.animations.stop();
+      dummy.animations.destroy();
+      dummy.kill();
+    } else {
+      dummy = ctx.game.add.sprite(
+        ctx.game.state.callbackContext.previewBox.x,
+        ctx.game.state.callbackContext.previewBox.y,
+        key
+      );
+    }
+
+    /*if (ctx.game.state.callbackContext.dummy) {
+      ctx.game.state.callbackContext.dummy.animations.stop();
+      ctx.game.state.callbackContext.dummy.animations.destroy();
+      ctx.game.state.callbackContext.dummy.destroy();
+    }*/
+    dummy.reset(
+      ctx.game.state.callbackContext.previewBox.x,
+      ctx.game.state.callbackContext.previewBox.y
+      );
+    dummy.animations.add('preview', frames, fps, true, true);
+    dummy.play('preview');
+  },
+
+  resetPreview: function (ctx) {
+    ctx.game.state.callbackContext.resetPreviewArray = true;
+  },
+
+  // built in functions
+  update: function () {
+    if (this.resetPreviewArray) {
+      this.previewArray = [0,];
+      this.resetPreviewArray = false;
+      this.preview(this);
+    }
+  },
+
   render: function () {
     //this.game.debug.geom(this.previewBox, 'rgba(250, 0, 250, 1)');
   },
 
-/*  setupPlayer: function () {
-    // ## PLAYER
-    this.player = this.add.sprite(
-      this.game.width / 2,
-      this.game.height - 100,
-      'grubby'
-    );
-    this.player.anchor.setTo(0.5, 0.5);
-    this.player.scale.setTo(4, 4);
-    this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
-    this.player.body.collideWorldBounds = true;
-    this.player.body.velocity.x = 0;
-    this.player.body.velocity.y = 0;
-    this.player.speed = 300;
-
-    this.player.animations.add('open', [0, 2, 3], 9, false);
-    this.player.animations.add('close', [3, 2, 0], 9, false);
-    this.player.animations.add('chew', [0, 2, 3, 2, 0], 10, true);
-    this.player.animations.add('left', [1], 1, false);
-    this.player.animations.add('right', [4], 1, false);
-    this.player.animations.add('idle', [0], 1, false);
-
-    this.player.play('idle');
-
-    this.mouseX = this.player.x; // dont let a computer decide your starting value for you!
-    this.score = 0;
-
-    console.log("player setup complete");
-  },
-
-  // update-related functions
-  update: function () {
-    if (this.input.keyboard.isDown(Phaser.Keyboard.Z) ||
-        this.input.activePointer.isDown) {
-      this.quitGame();
-    }
-  },
-
-  processPlayerInput: function () {
-    this.player.body.velocity.x = 0;
-    this.player.body.velocity.y = 0;
-
-    if (this.input.keyboard.isDown(Phaser.Keyboard.Z) ||
-        this.input.activePointer.isDown) {
-      if (this.returnText && this.returnText.exists) {
-        this.quitGame();
-      }
-    }
-
-    if (this.player.x > this.mouseX && Math.abs(this.player.x - this.mouseX) > 15) {
-      this.player.body.velocity.x = -this.player.speed;
-    } else if (this.player.x < this.mouseX && Math.abs(this.player.x - this.mouseX) > 15) {
-      this.player.body.velocity.x = this.player.speed;
-    }
-  },
-
-  quitGame: function (pointer) {
-    //  Then let's go back to the main menu.
-    this.state.start('Boot');
-  },
-*/
 };

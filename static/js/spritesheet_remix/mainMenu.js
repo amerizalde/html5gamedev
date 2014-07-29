@@ -1,3 +1,5 @@
+
+// global variable for access inside callbacks
 var spriteData = {
   img: new Image(),
   width: null,
@@ -5,6 +7,14 @@ var spriteData = {
   rows: null,
   columns: null,
 };
+
+function setSpriteData () {
+  spriteData.width = document.querySelector('[name="width"]').value;
+  spriteData.height = document.querySelector('[name="height"]').value;
+  spriteData.columns = document.querySelector('[name="columns"]').value;
+  spriteData.rows = document.querySelector('[name="rows"]').value;
+  console.log(spriteData.img.src);
+}
 
 BasicGame.MainMenu = function (game) {
 
@@ -40,7 +50,6 @@ BasicGame.MainMenu.prototype = {
       "Copyright (c) 2014 Andrew Merizalde",
       { font: "12px monospace", fill: "#ff00ff", align: "center"}).anchor.setTo(0.5, 0.5);
 
-    this.setupForm();
     //robertnyman.com/2011/03/10/using-html5-canvas-drag-and-drop-and-file-api-to-offer-the-cure/
     this.setupDrop();
   },
@@ -48,21 +57,13 @@ BasicGame.MainMenu.prototype = {
   update: function () {
 
     // if all sprite data is entered correctly, continue to game state.
-    if (spriteData.image &&
+    if (spriteData.img &&
         (spriteData.width !== null) &&
         (spriteData.height !== null) &&
         (spriteData.rows !== null) &&
         (spriteData.columns !== null)) {
-      var frameWidth = Math.floor(spriteData.width / spriteData.columns);
-      var frameHeight = Math.floor(spriteData.height / spriteData.rows);
-      this.cache.addSpriteSheet(
-        'previewData',
-        spriteData.img.src,
-        spriteData,
-        frameWidth,
-        frameHeight);
-      // this.state.start('Game');
-      console.log("ready to switch states.");
+      $("#glasspane").hide();
+      this.state.start('Game');
     }
 
   },
@@ -76,8 +77,6 @@ BasicGame.MainMenu.prototype = {
     // this.state.start('Game');
 
   },
-
-  setupForm: function () {},
 
   // create-related functions
   setupDrop: function () {

@@ -12,6 +12,17 @@ BasicGame.Game = function (game) {
 };
 
 BasicGame.Game.prototype = {
+  preload: function () {
+    var frameWidth = Math.floor(spriteData.width / spriteData.columns);
+    var frameHeight = Math.floor(spriteData.height / spriteData.rows);
+    this.load.spritesheet(
+      'previewData',
+      spriteData.img.src,
+      frameWidth,
+      frameHeight);
+    this.spritesheet = 'previewData';
+    // console.log(this.cache);
+  },
 
   // built-in create function
   create: function () {
@@ -25,21 +36,17 @@ BasicGame.Game.prototype = {
     this.previewBox.anchor = {'x': 0.5, 'y': 0.5};
 
     // this contains the spritesheet key
-    this.spritesheet = 'p1_walk';
+    // this.spritesheet = 'p1_walk';
+
     // this determines the order of frames played
     this.previewArray = [0,];
 
-    // this.loadSpritesheet();
     this.setupText();
     this.setupButtons();
     this.setupFramesManager(this.spritesheet);
     // show something to start
     this.preview();
 
-  },
-
-  loadSpritesheet: function () {
-    this.spritesheet = 'previewData';
   },
 
   setupFramesManager: function (atlas) {
@@ -49,6 +56,7 @@ BasicGame.Game.prototype = {
     this.framesGroup = this.add.group();
     // retrieve the atlas from the cache, to access the frames directly.
     var data = this.cache.getFrameData(atlas);
+    console.log(data);
     var img;
     // a cursor
     var cx = 0;

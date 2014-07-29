@@ -26,39 +26,12 @@ BasicGame.Preloader.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
     //  Here we load the rest of the assets our game needs.
-    this.load.image('background',
-      'assets/spritesheet_remix/phaser_pixel_large_shaded.png');
-    this.load.atlas(
-      'batwords',
-      'assets/bat-words/bat-words.png',
-      'assets/bat-words/bat-words.json',
-      null,
-      0);
     this.load.atlas(
       'gui',
       'assets/spritesheet_remix/gui.png',
       'assets/spritesheet_remix/gui.json',
       null,
       1);
-
-    this.load.spritesheet('p1_actions','assets/spritesheet_remix/p1_actions.png',
-      354 / 5,  // image width / # number of columns in the row
-      94,       // image height / number of rows
-      5         // number of actual frames
-      );
-    this.load.spritesheet(
-      'p1_walk',
-      'assets/spritesheet_remix/p1_walk_right.png',
-      792 / 11,
-      97,
-      11
-      );
-    /*
-    this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');
-    this.load.audio('game',       'assets/shmup/pixellated_zombies.ogg');
-    this.load.audio('bossBattle', 'assets/shmup/watch_out.ogg');
-    this.load.audio('endgame',    'assets/shmup/sad_Exploring.ogg');*/
-
   },
 
   create: function () {

@@ -8,6 +8,7 @@ BasicGame.Game = function (game) {
   this.fps = 24;
   this.resetPreviewArray = false;
   this.previewState = false;
+  this.gameOver = false;
 
 };
 
@@ -111,6 +112,21 @@ BasicGame.Game.prototype = {
     this.resetBtn.events.onInputOver.add(this.onOverFix, this.resetBtn);
     this.resetBtn.events.onInputOut.add(this.onOutFix, this.resetBtn);
 
+    // quit button
+    this.quitBtn = this.add.sprite(
+      this.game.width / 2 + this.previewBtn.width + this.resetBtn.width,
+      this.game.height / 2,
+      'gui',
+      "buttonSquare_grey.png");
+    this.addLabel(this.quitBtn, "Done", "14px", "center", 0.5);
+    this.quitBtn.anchor = {'x': 0.5, 'y': 0.5};
+    this.quitBtn.inputEnabled = true;
+    this.quitBtn.events.onInputDown.add(this.onDownFix, this.quitBtn);
+    this.quitBtn.events.onInputDown.add(this.callQuit, this.quitBtn);
+    this.quitBtn.events.onInputUp.add(this.onUpFix, this.quitBtn);
+    this.quitBtn.events.onInputOver.add(this.onOverFix, this.quitBtn);
+    this.quitBtn.events.onInputOut.add(this.onOutFix, this.quitBtn);
+
   },
 
   setupText: function () {
@@ -187,6 +203,10 @@ BasicGame.Game.prototype = {
     ctx.game.state.callbackContext.previewState = true;
   },
 
+  callQuit: function(ctx) {
+    ctx.game.state.callbackContext.gameOver = true;
+  },
+
   // add a label to a sprite
   addLabel: function (ctx, text, fontsize, alignment, anchor) {
     if (!anchor) {
@@ -224,6 +244,9 @@ BasicGame.Game.prototype = {
       this.previewArray = [0,]; // clear the array without destroying it.
       this.preview();
     }
+    if (this.gameOver) {
+      this.quit();
+    }
   },
 
   updateLabels: function () {
@@ -231,6 +254,21 @@ BasicGame.Game.prototype = {
     this.framesGroup.setAll('health', 0);
     // children[0].text does not work here.
     this.framesGroup.setAll('children.0.text', '0');
+  },
+
+  quit: function () {
+    this.gameOver = false;
+    // reset spriteData
+    spriteData = {
+      img: new Image(),
+      width: null,
+      height: null,
+      rows: null,
+      columns: null,
+    };
+    $("#glasspane").show();
+    // go back to the Main Menu
+    this.state.start('MainMenu');
   },
 
   render: function () {

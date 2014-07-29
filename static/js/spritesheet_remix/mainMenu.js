@@ -57,7 +57,11 @@ BasicGame.MainMenu.prototype = {
   update: function () {
 
     // if all sprite data is entered correctly, continue to game state.
-    if (spriteData.img &&
+    if (spriteData.img.src && this.loadingText.text == "DRAG AND DROP your image file HERE!") {
+      console.log(spriteData.img.src)
+      this.loadingText.text = "Thanks! Please complete the form and submit!";
+    }
+    if ((spriteData.img.src !== null) &&
         (spriteData.width !== null) &&
         (spriteData.height !== null) &&
         (spriteData.rows !== null) &&

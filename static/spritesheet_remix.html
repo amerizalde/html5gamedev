@@ -22,6 +22,27 @@
       padding: 0;
       border: 0;
     }
+
+    #glasspane {
+        position: absolute;
+        left: 50px;
+        top: 50px;
+        padding: 0em 2em 1em 1em;
+        background: rgba(0, 0, 0, 0.3);
+        border: thin solid rgba(0, 0, 0, 0.6);
+        color:# #eeeeee;
+        font-family: Droid Sans, Arial, Helvetica, sans-serif;
+        font-size: 12px;
+        cursor: pointer;
+        -webkit-box-shadow: rgba(0,0,0,0.5) 0.5em 0.5em 2em 0.5em;
+        -moz-box-shadow: rgba(0,0,0,0.5) 0.5em 0.5em 2em 0.5em;
+        box-shadow: rgba(0,0,0,0.5) 0.5em 0.5em 2em 0.5em;
+    }
+
+    #glasspane input {
+      width: 18em; 
+    }
+
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,6 +58,16 @@
     <li><a href="#">Tools</a></li>
     <li class="active">Spritesheet Remixer</li>
 </ul>
+
+<div id="glasspane">
+  Enter the image details here. <br>
+  <input type="number" name="width" required placeholder="Enter the image width in pixels"><br>
+  <input type="number" name="height" required placeholder="Enter the image height in pixels"><br>
+  <input type="number" name="columns" required placeholder="Enter the max # of frames per row"><br>
+  <input type="number" name="rows" required placeholder="Enter the number of rows"><br>
+  <input type="submit" name="submit"><br>
+</div>
+
 <div id="gameContainer"></div>
 
 </body>

@@ -1,4 +1,10 @@
-var spriteData = new Image();
+var spriteData = {
+  img: new Image(),
+  width: null,
+  height: null,
+  rows: null,
+  columns: null,
+};
 
 BasicGame.MainMenu = function (game) {
 
@@ -34,27 +40,29 @@ BasicGame.MainMenu.prototype = {
       "Copyright (c) 2014 Andrew Merizalde",
       { font: "12px monospace", fill: "#ff00ff", align: "center"}).anchor.setTo(0.5, 0.5);
 
+    this.setupForm();
     //robertnyman.com/2011/03/10/using-html5-canvas-drag-and-drop-and-file-api-to-offer-the-cure/
     this.setupDrop();
   },
 
   update: function () {
 
-    /*if (this.input.keyboard.isDown(Phaser.Keyboard.Z) || this.input.activePointer.isDown) {
-      this.state.start('Game');
-    }*/
-
-    if (spriteData.src) {
-      // frameWidth is (# of frames in a row / spriteData.width)
-      // frameHeight is (# of frames in a column / spriteData.height)
+    // if all sprite data is entered correctly, continue to game state.
+    if (spriteData.image &&
+        (spriteData.width !== null) &&
+        (spriteData.height !== null) &&
+        (spriteData.rows !== null) &&
+        (spriteData.columns !== null)) {
+      var frameWidth = Math.floor(spriteData.width / spriteData.columns);
+      var frameHeight = Math.floor(spriteData.height / spriteData.rows);
       this.cache.addSpriteSheet(
         'previewData',
-        spriteData.src,
-        spriteData
-        // frameWidth,
-        // frameHeight,
-      );
+        spriteData.img.src,
+        spriteData,
+        frameWidth,
+        frameHeight);
       // this.state.start('Game');
+      console.log("ready to switch states.");
     }
 
   },
@@ -68,6 +76,8 @@ BasicGame.MainMenu.prototype = {
     // this.state.start('Game');
 
   },
+
+  setupForm: function () {},
 
   // create-related functions
   setupDrop: function () {
@@ -89,7 +99,7 @@ BasicGame.MainMenu.prototype = {
         if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
           var reader = new FileReader();
           reader.onload = function (evt) {
-            spriteData.src = evt.target.result;
+            spriteData.img.src = evt.target.result;
           };
           reader.readAsDataURL(file);
         }

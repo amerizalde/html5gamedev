@@ -266,6 +266,10 @@ BasicGame.Game.prototype = {
       rows: null,
       columns: null,
     };
+    $('input[name="width"]').val('');
+    $('input[name="height"]').val('');
+    $('input[name="rows"]').val('');
+    $('input[name="columns"]').val('');
     $("#glasspane").show();
     // go back to the Main Menu
     this.state.start('MainMenu');

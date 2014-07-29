@@ -1,3 +1,4 @@
+var spriteData = new Image();
 
 BasicGame.MainMenu = function (game) {
 
@@ -9,10 +10,7 @@ BasicGame.MainMenu.prototype = {
   create: function () {
 
     // sprites are loaded in the order added here.
-    this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
-    
-
-    // this.setupPlayer();
+    // this.bg = this.add.tileSprite(0, 0, this.camera.width, this.camera.height, 'background');
 
     // title
     /*this.titlePNG = this.add.sprite(
@@ -26,8 +24,8 @@ BasicGame.MainMenu.prototype = {
     this.loadingText = this.add.text(
       this.camera.width / 2,
       this.camera.height / 2,
-      "Press Z or tap/click game to start",
-      { font: "30px Audiowide", fill: "#ff66ff" });
+      "DRAG AND DROP your image file HERE!",
+      { font: "30px monospace", fill: "#ff66ff" });
     this.loadingText.anchor.setTo(0.5, 0.5);
 
     this.add.text(
@@ -35,14 +33,29 @@ BasicGame.MainMenu.prototype = {
       this.camera.height - 32,
       "Copyright (c) 2014 Andrew Merizalde",
       { font: "12px monospace", fill: "#ff00ff", align: "center"}).anchor.setTo(0.5, 0.5);
+
+    //robertnyman.com/2011/03/10/using-html5-canvas-drag-and-drop-and-file-api-to-offer-the-cure/
+    this.setupDrop();
   },
 
   update: function () {
 
-    if (this.input.keyboard.isDown(Phaser.Keyboard.Z) || this.input.activePointer.isDown) {
+    /*if (this.input.keyboard.isDown(Phaser.Keyboard.Z) || this.input.activePointer.isDown) {
       this.state.start('Game');
+    }*/
+
+    if (spriteData.src) {
+      // frameWidth is (# of frames in a row / spriteData.width)
+      // frameHeight is (# of frames in a column / spriteData.height)
+      this.cache.addSpriteSheet(
+        'previewData',
+        spriteData.src,
+        spriteData
+        // frameWidth,
+        // frameHeight,
+      );
+      // this.state.start('Game');
     }
-    //  Do some nice funky main menu effect here
 
   },
 
@@ -57,26 +70,31 @@ BasicGame.MainMenu.prototype = {
   },
 
   // create-related functions
-  setupPlayer: function () {
-    console.log("player setup start");
-    // ## PLAYER
-    /*this.player = this.add.sprite(
-      this.game.width / 2,
-      this.game.height - 100,
-      'grubby'
-    );
-    this.player.anchor.setTo(0.5, 0.5);
-    this.player.scale.setTo(4, 4);
-    this.player.animations.add('open', [0, 2, 3], 9, false);
-    this.player.animations.add('close', [3, 2, 0], 9, false);
-    this.player.animations.add('chew', [0, 2, 3, 2, 0], 10, true);
-    this.player.animations.add('left', [1], 1, false);
-    this.player.animations.add('right', [4], 1, false);
-    this.player.animations.add('idle', [0], 1, false);
+  setupDrop: function () {
+    // get a handle on the canvas through Phaser
+    var canvas = this.game.context.canvas;
 
-    this.player.play('idle');
-*/
-    console.log("player setup complete");
+    // override the dragover and drop events
+    canvas.addEventListener("dragover", function (evt) {
+      evt.preventDefault();
+    }, false);
+
+    canvas.addEventListener("drop", function (evt) {
+      evt.preventDefault();
+      var files = evt.dataTransfer.files;
+      if (files.length > 0) {
+        var file = files[0];
+        // verify dropped file is an image,
+        // and that FileReader is even usable on this browser
+        if (typeof FileReader !== "undefined" && file.type.indexOf("image") != -1) {
+          var reader = new FileReader();
+          reader.onload = function (evt) {
+            spriteData.src = evt.target.result;
+          };
+          reader.readAsDataURL(file);
+        }
+      }
+    }, false);
   },
 
 };

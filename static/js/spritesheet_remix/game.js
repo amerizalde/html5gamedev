@@ -29,12 +29,17 @@ BasicGame.Game.prototype = {
     // this determines the order of frames played
     this.previewArray = [0,];
 
+    // this.loadSpritesheet();
     this.setupText();
     this.setupButtons();
     this.setupFramesManager(this.spritesheet);
     // show something to start
     this.preview();
 
+  },
+
+  loadSpritesheet: function () {
+    this.spritesheet = 'previewData';
   },
 
   setupFramesManager: function (atlas) {

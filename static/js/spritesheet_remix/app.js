@@ -1,13 +1,12 @@
-var game = null;
 
 window.onload = function() {
 
   //  Create your Phaser game and inject it into the gameContainer div.
   //  We did it in a window.onload event, but you can do it anywhere (requireJS load, anonymous function, jQuery dom ready, - whatever floats your boat)
-  game = new Phaser.Game(
+  var game = new Phaser.Game(
     window.width,
     window.height,
-    Phaser.AUTO,        // renderer
+    Phaser.CANVAS,        // renderer
     'gameContainer');   // DOM element to inject to
 
   //  Add the States your game has.

@@ -66,7 +66,7 @@ BasicGame.MainMenu.prototype = {
         (spriteData.height !== null) &&
         (spriteData.rows !== null) &&
         (spriteData.columns !== null)) {
-      $("#glasspane").hide();
+      $("#spriteData").hide();
       this.state.start('Game');
     }
 

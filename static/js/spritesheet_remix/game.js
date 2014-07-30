@@ -22,7 +22,6 @@ BasicGame.Game.prototype = {
       frameWidth,
       frameHeight);
     this.spritesheet = 'previewData';
-    // console.log(this.cache);
   },
 
   // built-in create function
@@ -36,17 +35,15 @@ BasicGame.Game.prototype = {
       100, 100);
     this.previewBox.anchor = {'x': 0.5, 'y': 0.5};
 
-    // this contains the spritesheet key
-    // this.spritesheet = 'p1_walk';
-
     // this determines the order of frames played
     this.previewArray = [0,];
 
-    this.setupText();
     this.setupButtons();
     this.setupFramesManager(this.spritesheet);
     // show something to start
     this.preview();
+    $("#frameData").text(this.previewArray);
+    $("#codeAssist").show();
 
   },
 
@@ -88,7 +85,7 @@ BasicGame.Game.prototype = {
       this.game.height / 2,
       'gui',
       "buttonSquare_grey.png");
-    this.addLabel(this.previewBtn, "Play", "14px", "center", 0.5);
+    this.addLabel(this.previewBtn, "Play", "20px", "center", 0.5);
     this.previewBtn.anchor = {'x': 0.5, 'y': 0.5};
     this.previewBtn.inputEnabled = true;
     this.previewBtn.events.onInputDown.add(this.onDownFix, this.previewBtn);
@@ -129,20 +126,6 @@ BasicGame.Game.prototype = {
 
   },
 
-  setupText: function () {
-    this.add.text(
-      10,
-      this.previewBox.centerY - 20,
-      "Frame Order:",
-      {font: "16px Droid Sans Mono", fill: "#fff", align: "left"});
-    // show the current animation frame order to the user.
-    this.codeAssistText = this.add.text(
-      10,
-      this.previewBox.centerY,
-      this.previewArray,
-      {font: "16px Droid Sans Mono", fill: "#fff", align: "left"});
-  },
-
   // these helpers create 'buttons' out of sprites
   onUpFix: function (btn) {
     btn.frameName = "buttonSquare_grey.png";
@@ -165,6 +148,8 @@ BasicGame.Game.prototype = {
     ctx.children[0].text = ctx.health.toString();
     frames.push(parseInt(ctx._frame.index));
     ctx.game.state.callbackContext.previewArray = frames;
+    $("#frameData").text(ctx.game.state.callbackContext.previewArray);
+
   },
 
   // create an animation from the spritesheet using the frame order
@@ -192,8 +177,6 @@ BasicGame.Game.prototype = {
     );
     // play it
     this.dummy.play('preview');
-    // update the frame order display
-    this.codeAssistText.text = this.previewArray;
   },
 
   callResetPreview: function (ctx) {
@@ -219,14 +202,10 @@ BasicGame.Game.prototype = {
       0,
       text,
       {
-        fontSize: fontsize,
         font: "Droid Sans Mono",
+        fontSize: fontsize,
         fill: "#ff0000",
         align: alignment,
-        shadowColor: 'rgba(20,20,20,1)',
-        shadowBlur: 2,
-        shadowOffsetX: 2,
-        shadowOffsetY: 2,
       }
     );
     label.anchor.setTo(anchor);
@@ -243,6 +222,7 @@ BasicGame.Game.prototype = {
       this.resetPreviewArray = false;
       this.updateLabels();
       this.previewArray = [0,]; // clear the array without destroying it.
+      $("#frameData").text(this.previewArray);
       this.preview();
     }
     if (this.gameOver) {
@@ -267,11 +247,14 @@ BasicGame.Game.prototype = {
       rows: null,
       columns: null,
     };
+    this.dummy = null;
     $('input[name="width"]').val('');
     $('input[name="height"]').val('');
     $('input[name="rows"]').val('');
     $('input[name="columns"]').val('');
-    $("#glasspane").show();
+    $("#spriteData").show();
+    $("#codeAssist").hide();
+    $("#frameData").text("");
     // go back to the Main Menu
     this.state.start('MainMenu');
   },

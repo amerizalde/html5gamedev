@@ -23,10 +23,8 @@
       border: 0;
     }
 
-    #glasspane {
+    .glasspane {
         position: absolute;
-        left: 50px;
-        top: 50px;
         padding: 0em 2em 1em 1em;
         background: rgba(0, 0, 0, 0.3);
         border: thin solid rgba(0, 0, 0, 0.6);
@@ -39,8 +37,18 @@
         box-shadow: rgba(0,0,0,0.5) 0.5em 0.5em 2em 0.5em;
     }
 
-    #glasspane input {
-      width: 18em; 
+    .glasspane input {
+      width: 18em;
+    }
+
+    #spriteData.glasspane {
+      left: 50px;
+      top: 50px;
+    }
+
+    #codeAssist.glasspane {
+      bottom: 15em;
+      left: 2em;
     }
 
     </style>
@@ -59,13 +67,19 @@
     <li class="active">Spritesheet Remixer</li>
 </ul>
 
-<div id="glasspane">
+<div class="glasspane" id="spriteData">
   Enter the image details here. <br>
   <input type="number" name="width" required placeholder="Enter the image width in pixels"><br>
   <input type="number" name="height" required placeholder="Enter the image height in pixels"><br>
   <input type="number" name="columns" required placeholder="Enter the max # of frames per row"><br>
   <input type="number" name="rows" required placeholder="Enter the number of rows"><br>
   <input type="submit" onClick="setSpriteData()"><br>
+</div>
+
+<div class="glasspane" id="codeAssist">
+  <p>Frames are added in the order they are clicked.</p>
+  Frame Sequence:
+  <div id="frameData"></div>
 </div>
 
 <div id="gameContainer"></div>

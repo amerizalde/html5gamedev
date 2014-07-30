@@ -13,7 +13,7 @@ function setSpriteData () {
   spriteData.height = document.querySelector('[name="height"]').value;
   spriteData.columns = document.querySelector('[name="columns"]').value;
   spriteData.rows = document.querySelector('[name="rows"]').value;
-  console.log(spriteData.img.src);
+  // console.log(spriteData.img.src);
 }
 
 BasicGame.MainMenu = function (game) {
@@ -58,7 +58,7 @@ BasicGame.MainMenu.prototype = {
 
     // if all sprite data is entered correctly, continue to game state.
     if (spriteData.img.src && this.loadingText.text == "DRAG AND DROP your image file HERE!") {
-      console.log(spriteData.img.src)
+      // console.log(spriteData.img.src)
       this.loadingText.text = "Thanks! Please complete the form and submit!";
     }
     if ((spriteData.img.src !== null) &&

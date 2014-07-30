@@ -57,7 +57,7 @@ BasicGame.Game.prototype = {
     this.framesGroup = this.add.group();
     // retrieve the atlas from the cache, to access the frames directly.
     var data = this.cache.getFrameData(atlas);
-    console.log(data);
+    // console.log(data);
     var img;
     // a cursor
     var cx = 0;
@@ -172,6 +172,7 @@ BasicGame.Game.prototype = {
   preview: function () {
     // create a reusable sprite for the animation preview
     if (this.dummy) {
+      console.log(this.dummy);
       this.dummy.animations.stop();
       this.dummy.animations.currentAnim.destroy();
     } else {

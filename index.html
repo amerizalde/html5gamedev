@@ -12,9 +12,8 @@
     <!-- Game Font -->
     <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
     <style>
-    html {
-        margin: 0 auto;
-        width: 480px;
+    .item {
+        text-align: center;
     }
     </style>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -25,6 +24,10 @@
     <![endif]-->
 </head>
 <body>
+    <!-- Left Pane -->
+    <div class="col-xs-1 col-md-2"></div>
+    <!-- Center Pane -->
+    <div class="col-xs-16 col-md-8">
     <h1>Game Development Studies</h1>
     <div id="this-carousel-id" class="carousel slide">
         <div class="carousel-inner">
@@ -40,10 +43,19 @@
                 <h2><a href="match3.html">Match 3 Clone</a></h2>
                 <p>A demo match3 game ala Bejeweled, Candy Crush, etc.</p>
             </div>
+            <div class="item">
+                <h2><a href="spritesheet_remix.html">Sprite Remix</a></h2>
+                <p>A tool to customize sprite animations. Built with <a href="https://phaser.io/">Phaser</a> and <a href="http://jquery.com/">JQuery</a> </p>
+            </div>
         </div>
         <a href="#this-carousel-id" class="carousel-control left" data-slide="prev">&lsaquo;</a>
         <a href="#this-carousel-id" class="carousel-control right" data-slide="next">&rsaquo;</a>
     </div>
+    </div>
+    <!-- Right Pane -->
+    <div class="col-xs-1 col-md-2"></div>
+
+    
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

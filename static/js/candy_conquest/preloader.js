@@ -28,10 +28,7 @@ BasicGame.Preloader.prototype = {
     //  Here we load the rest of the assets our game needs.
     this.load.tilemap('level', 'assets/candy_conquest/candy_conquest.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('tiles', 'assets/candy_conquest/level_sheet.png');
-    this.load.image('p1_left', 'assets/candy_conquest/p1_left.png');
-    this.load.image('p1_right', 'assets/candy_conquest/p1_right.png');
-    this.load.image('p2_left', 'assets/candy_conquest/p2_left.png');
-    this.load.image('p2_right', 'assets/candy_conquest/p2_right.png');
+    this.load.spritesheet('p1', 'assets/candy_conquest/p1_all.png', 432 / 6, 582 / 6, 32);
     this.load.atlas(
       'batwords',
       'assets/bat-words/bat-words.png',

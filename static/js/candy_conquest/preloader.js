@@ -26,9 +26,20 @@ BasicGame.Preloader.prototype = {
     this.load.setPreloadSprite(this.preloadBar);
 
     //  Here we load the rest of the assets our game needs.
+
+    this.load.image('logo', 'assets/candy_conquest/phaser_pixel_large_shaded.png');
+
+    // the background combo of tilemap and image
     this.load.tilemap('level', 'assets/candy_conquest/candy_conquest.json', null, Phaser.Tilemap.TILED_JSON);
     this.load.image('tiles', 'assets/candy_conquest/level_sheet.png');
+
+    // the complete player spritesheet
     this.load.spritesheet('p1', 'assets/candy_conquest/p1_all.png', 432 / 6, 582 / 6, 32);
+
+    // the deform brush
+    this.load.image('brush', 'assets/candy_conquest/deformBrush.png');
+
+    // visual fx
     this.load.atlas(
       'batwords',
       'assets/bat-words/bat-words.png',
@@ -36,6 +47,8 @@ BasicGame.Preloader.prototype = {
       null,
       0);
 
+    // soundfx
+    // music
     /*this.load.audio('pregame',    'assets/shmup/silent_kilt.ogg');
     this.load.audio('game',       'assets/shmup/pixellated_zombies.ogg');
     this.load.audio('bossBattle', 'assets/shmup/watch_out.ogg');

@@ -9,6 +9,7 @@ BasicGame.Game = function (game) {
   this.resetPreviewArray = false;
   this.previewState = false;
   this.gameOver = false;
+  this.scalar = 1;
 
 };
 
@@ -16,6 +17,7 @@ BasicGame.Game.prototype = {
   preload: function () {
     var frameWidth = Math.floor(spriteData.width / spriteData.columns);
     var frameHeight = Math.floor(spriteData.height / spriteData.rows);
+    this.scalar = this.scaleDownToFit(frameWidth);
     this.load.spritesheet(
       'previewData',
       spriteData.img.src,
@@ -67,6 +69,8 @@ BasicGame.Game.prototype = {
       }
       // create the next frame sprite
       img = this.add.sprite(cx, cy, atlas, data._frames[i].index);
+      console.log(img);
+      // img.scale = this.scalar;
       img.inputEnabled = true;
       img.health = 0; // used as a counter.
       this.addLabel(img, img.health.toString(), "18px", "center");
@@ -262,4 +266,21 @@ BasicGame.Game.prototype = {
   render: function () {
     //this.game.debug.geom(this.previewBox, 'rgba(250, 0, 250, 1)');
   },
+
+  scaleDownToFit: function (frameWidth) {
+    // find a scalar that keeps the frames near 10 to a row
+    var fw = frameWidth;
+    var maxWidth = Math.floor(this.game.width / 10);
+    var scalar = 1.0;
+
+    if (fw < maxWidth) return 1; // nothing to change
+
+    while (fw > maxWidth) {
+      scalar = scalar - 0.1;
+      fw = frameWidth * scalar;
+    }
+
+    return scalar;
+  },
+
 };

@@ -16,14 +16,13 @@ BasicGame.Game.prototype = {
   setupWorld: function () {
     this.bg = this.add.tilemap('level');
     this.bg.addTilesetImage('level_sheet', 'tiles');
-    var layer = this.bg.createLayer('layer_1');
-    layer.debug = true;
-    this.bg.setCollisionByExclusion([], true, layer);
-    layer.resizeWorld();
-    layer.wrap = true;
-    console.log(layer);
+    this.layer = this.bg.createLayer('layer_1');
+    this.bg.setCollisionByExclusion([12], true, this.layer);
+    this.layer.resizeWorld();
+    this.layer.wrap = true;
+    this.layer.debug = true;
 
-    this.physics.arcade.gravity.y = 1000;
+    this.game.physics.arcade.gravity.y = 500;
   },
 
   setupPlayer: function () {
@@ -34,7 +33,7 @@ BasicGame.Game.prototype = {
       'p1'
     );
     this.player.anchor.setTo(0.5, 0.5);
-    /*this.player.scale.setTo(4, 4);*/
+    this.player.scale.setTo(0.5, 0.5);
     this.game.physics.enable(this.player, Phaser.Physics.ARCADE);
     this.player.body.collideWorldBounds = true;
     this.player.body.velocity.x = 0;
@@ -43,14 +42,14 @@ BasicGame.Game.prototype = {
     // wrap around horizontally, not vertically
     this.world.wrap(this.player, 0, false, true, false);
 
-    /*this.player.animations.add('open', [0, 2, 3], 9, false);
-    this.player.animations.add('close', [3, 2, 0], 9, false);
-    this.player.animations.add('chew', [0, 2, 3, 2, 0], 10, true);
-    this.player.animations.add('left', [1], 1, false);
-    this.player.animations.add('right', [4], 1, false);
-    this.player.animations.add('idle', [0], 1, false);
+    this.player.animations.add('idle', [1,4,1,28], 1, true);
+    this.player.animations.add('left', [4,5,6,7,8,9,10,11,12,13,14,15], 6, true);
+    this.player.animations.add('right', [20,21,22,23,24,25,26,27,28,29,30,31], 6, true);
+    this.player.animations.add('hit_left', [2,3,0], 1, false);
+    this.player.animations.add('jump_left', [26], 1, false);
+    this.player.animations.add('jump_right', [10], 1, false);
 
-    this.player.play('idle');*/
+    this.player.play('idle');
 
     this.score = 0;
 
@@ -64,7 +63,10 @@ BasicGame.Game.prototype = {
 
   // update-related functions
   update: function () {
+    // wrap around horizontally, not vertically
+    this.world.wrap(this.player, 0, false, true, false);
     this.processPlayerInput();
+    this.checkCollision();
   },
 
   processPlayerInput: function () {
@@ -73,11 +75,11 @@ BasicGame.Game.prototype = {
     var right = Phaser.Keyboard.D;
     var up = Phaser.Keyboard.W;
     var down = Phaser.Keyboard.S;
-    var jump = Phaser.Keyboard.SPACEBAR;
+    var jump = Phaser.Keyboard.W;
 
     // zero out the velocity
     this.player.body.velocity.x = 0;
-    this.player.body.velocity.y = 0;
+    // this.player.body.velocity.y = 0;
 
     // wrap
 
@@ -90,26 +92,26 @@ BasicGame.Game.prototype = {
 
     // movement
     // left
-    if (this.input.keyboard.isDown(left) && this.player.body.touching.down) {
+    if (this.input.keyboard.isDown(left) && this.player.body.blocked.down) {
       this.player.body.velocity.x = -this.player.speed;
     } else if (this.input.keyboard.isDown(left)) {
       this.player.body.velocity.x = -this.player.speed * 0.25;
     }
 
     // right
-    if (this.input.keyboard.isDown(right) && this.player.body.touching.down) {
+    if (this.input.keyboard.isDown(right) && this.player.body.blocked.down) {
       this.player.body.velocity.x = this.player.speed;
     } else if (this.input.keyboard.isDown(right)) {
       this.player.body.velocity.x = this.player.speed * 0.25;
     }
 
     // jump
-    if (this.input.keyboard.isDown(jump) &&
-      (this.player.body.touching.down ||
-        this.player.body.touching.left ||
-        this.player.body.touching.right)) {
-      
-      this.player.body.velocity.y = -this.world.gravity;
+    if (this.input.keyboard.justPressed(jump)) {
+      if (this.player.body.blocked.down) {
+        this.player.body.velocity.y = -600;
+        console.log("JUMPING!");
+      }
+      console.log(this.player.body.blocked);
     }
 
     // cancel
@@ -119,6 +121,7 @@ BasicGame.Game.prototype = {
   },
 
   checkCollision: function () {
+    this.physics.arcade.collide(this.player, this.layer);
   },
 
   gobble: function (player, candy) {
@@ -135,8 +138,8 @@ BasicGame.Game.prototype = {
   },
 
   render: function () {
-    this.game.debug.cameraInfo(this.camera, 32, 32);
     this.game.debug.spriteCoords(this.player, 32, 400);
+    this.game.debug.bodyInfo(this.player, 32, 32);
   },
 };
 

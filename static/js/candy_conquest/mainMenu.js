@@ -22,7 +22,7 @@ BasicGame.MainMenu.prototype = {
   update: function () {
 
     if (this.input.activePointer.isDown) {
-      // this.state.start('Game');
+      this.state.start('Game');
     }
     //  Do some nice funky main menu effect here
 

@@ -24,11 +24,14 @@ window.onload = function() {
 
 // doesnt seem to do anything
 window.onresize = function () {
-  var height = 480,
-      width = 800;
+  var height = 800,
+      width = 480;
   height = game.canvas.height < height ? game.canvas.height : height;
   width = game.canvas.width < width ? game.canvas.width : width;
   game.canvas.height = height;
   game.canvas.width = width;
+  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  game.scale.pageAlignHorizontally = true;
+  game.scale.setScreenSize();
   if (game.renderType === Phaser.WEBGL) game.renderer.resize (width, height);
 };

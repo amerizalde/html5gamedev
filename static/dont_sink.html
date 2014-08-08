@@ -1,0 +1,162 @@
+<html>
+<head>
+    <title>Don't Sink!</title>
+    <style>
+    .fancy {
+        font-family: "Droid Sans Mono", Helvetica, sans-serif;
+        font-size: 14px;
+        color: #fff;
+        padding: 10px 20px;
+        border: 2px solid #000;
+        cursor: pointer;
+        
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        
+        /* [ top|left|right|bottom|#deg, begin color, end color] */
+        background: -webkit-linear-gradient(top, #a3a3a3, #000);
+        background: -moz-linear-gradient(top, #a3a3a3, #000);
+        background: linear-gradient(top, #a3a3a3, #000);
+        
+        /* [ horizontal offset, vertical offset, blurriness, color ] */
+        -webkit-box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.5);
+        box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.5);
+        
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .fancy:hover {
+        background: -webkit-radial-gradient(center, ellipse, #acc7a3, #506651);
+        background: -moz-radial-gradient(center, ellipse, #acc7a3, #506651);
+        background: radial-gradient(center, ellipse, #acc7a3, #506651);
+    }
+
+    .fancy:active {
+        background: -webkit-radial-gradient(center, ellipse, #858565, #c5c9a9);
+        background: -moz-radial-gradient(center, ellipse, #858565, #c5c9a9);
+        background: radial-gradient(center, ellipse, #858565, #c5c9a9);
+    }
+
+    #stage {}
+    #background {}
+    #cannon {
+        width: 99px;
+        height: 75px;
+        position: absolute;
+        top: 270px;
+        left: 140px;
+        background-image: url(/assets/testingGrounds/playerShip1_green.png);
+    }
+    #enemy {
+        width: 91px;
+        height: 91px;
+        position: absolute;
+        top: 20px;
+        left: 80px;
+        background-image: url(/assets/testingGrounds/ufoRed.png);
+    }
+    #missile {
+        width: 9px;
+        height: 54px;
+        position: absolute;
+        top: 240px;
+        left: 145px;
+        background-image: url(/assets/testingGrounds/laserBlue01.png);
+    }
+    </style>
+</head>
+<body>
+    <div id="stage">
+        <div id="background"></div>
+        <div id="cannon"></div>
+        <div id="missile"></div>
+        <div id="enemy"></div>
+    </div>
+    <p id="output">Enter the X and Y position, then click FIRE!</p>
+    <input type="number" id="inputX" placeholder="X...">
+    <input type="number" id="inputY" placeholder="Y...">
+    <button class="fancy" id="fire">Fire!</button>
+</body>
+
+<script>
+// globals
+var enemyX = 80,
+    enemyY = 20,
+    guessX = 0,
+    guessY = 0,
+    shotsRemaining = 8,
+    shotsMade = 0,
+    gameState = "",
+    gameWon = false,
+
+    cannon = document.querySelector("#cannon"),
+    enemy = document.querySelector("#enemy"),
+    missile = document.querySelector("#missile"),
+
+    inputX = document.querySelector("#inputX"),
+    inputY = document.querySelector("#inputY"),
+    output = document.querySelector("#output");
+
+var button = document.querySelector("fire");
+button.addEventListener("click", clickHandler, false);
+
+function render() {
+    // position the enemy
+    enemy.style.left = enemyX + "px";
+    enemy.style.top = enemyY + "px";
+    cannon.style.left = guessX + "px";
+    missile.style.left = guessX + "px";
+    missile.style.top = guessY + "px";
+}
+
+function clickHandler() {
+    playGame();
+}
+
+function playGame() {
+    shotsRemaining--;
+    shotsMade++;
+    gameState = "Shots: " + shotsMade + ", Remaining: " + shotsRemaining;
+    guessX = parseInt(inputX.value);
+    guessY = parseInt(inputY.value);
+
+    if (detectHitEnemy(guessX, guessY, enemyX, enemyY)) {
+        gameWon = true;
+        endGame();
+    } else {
+        output.innerHTML = "Miss!" + gameState;
+
+        // check if ammo remaining
+        if (shotsRemaining < 1) {
+            endGame();
+        }
+    }
+
+    // update enemy's position
+    if (!gameWon) {
+        enemyX = Math.floor(Math.random() * (window.width - 20));
+        enemyY += 30; // moving closer to the ground
+    }
+
+    render();
+}
+
+function endGame () {
+    if (gameWon) {
+        output.innerHTML = "Hit! You saved the earth!" +
+                            "<br>" +
+                            "It only took you " + shotsMade + " shots.";
+    } else {
+        output.innerHTML = "You lost!" +
+                            "<br>" +
+                            "The earth has been invaded!";
+    }
+}
+
+</script>
+
+</html>

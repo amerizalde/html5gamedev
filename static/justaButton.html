@@ -1,0 +1,50 @@
+<html>
+<head>
+    <title>Custom Buttom</title>
+    <style>
+    .fancy {
+        font-family: "Droid Sans Mono", Helvetica, sans-serif;
+        font-size: 14px;
+        color: #fff;
+        padding: 10px 20px;
+        border: 2px solid #000;
+        cursor: pointer;
+        
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        
+        /* [ top|left|right|bottom|#deg, begin color, end color] */
+        background: -webkit-linear-gradient(top, #a3a3a3, #000);
+        background: -moz-linear-gradient(top, #a3a3a3, #000);
+        background: linear-gradient(top, #a3a3a3, #000);
+        
+        /* [ horizontal offset, vertical offset, blurriness, color ] */
+        -webkit-box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.5);
+        -moz-box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.5);
+        box-shadow: 0.2em 0.2em 0.5em rgba(0, 0, 0, 0.5);
+        
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        user-select: none;
+    }
+
+    .fancy:hover {
+        background: -webkit-radial-gradient(center, ellipse, #acc7a3, #506651);
+        background: -moz-radial-gradient(center, ellipse, #acc7a3, #506651);
+        background: radial-gradient(center, ellipse, #acc7a3, #506651);
+    }
+
+    .fancy:active {
+        background: -webkit-radial-gradient(center, ellipse, #858565, #c5c9a9);
+        background: -moz-radial-gradient(center, ellipse, #858565, #c5c9a9);
+        background: radial-gradient(center, ellipse, #858565, #c5c9a9);
+    }
+    </style>
+</head>
+<body>
+    <button>Don't use me...</button>
+    <button class="fancy">Use Me!</button>
+</body>
+
+</html>

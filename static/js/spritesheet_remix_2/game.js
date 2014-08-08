@@ -45,6 +45,7 @@ BasicGame.Game.prototype = {
     this.setupButtons();
     // show something to start
     this.preview();
+    $("frameManager").show();
     $("#frameData").text(this.previewArray);
     $("#codeAssist").show();
 
@@ -153,7 +154,6 @@ BasicGame.Game.prototype = {
     frames.push(parseInt(ctx._frame.index));
     ctx.game.state.callbackContext.previewArray = frames;
     $("#frameData").text(ctx.game.state.callbackContext.previewArray);
-
   },
 
   // create an animation from the spritesheet using the frame order

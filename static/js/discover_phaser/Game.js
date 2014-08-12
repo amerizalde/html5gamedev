@@ -30,25 +30,86 @@ BasicGame.Game.prototype = {
 	create: function () {
 
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
-        this.pointyThing = this.add.sprite(this.world.centerX, this.game.height - 30, 'arrows', 0);
-        this.pointyThing.anchor.setTo(0.5, 0.5);
-        this.game.physics.enable(this.pointyThing, Phaser.Physics.ARCADE);
+        // this.pointyThing = this.add.sprite(this.world.centerX, this.game.height - 30, 'arrows', 0);
+        // this.pointyThing.anchor.setTo(0.5, 0.5);
+        // this.game.physics.enable(this.pointyThing, Phaser.Physics.ARCADE);
+        this.setupPlayer();
+        this.setupKeys();
+        this.setLevel();
 	},
 
+    setupPlayer: function () {
+        this.player = this.add.sprite(this.world.centerX, this.world.centerY, 'chick', 0);
+        this.player.anchor.setTo(0.5, 0.5); // center the origin
+        this.physics.arcade.enable(this.player); // arcade physics body added
+        this.player.body.gravity.y = 500;
+    },
+
+    setupKeys: function () {
+        this.cursor = this.input.keyboard.createCursorKeys();
+
+        // lock these keys out of the browser
+        this.input.keyboard.addKeyCapture(
+          [ Phaser.Keyboard.LEFT,
+            Phaser.Keyboard.RIGHT,
+            Phaser.Keyboard.UP,
+            Phaser.Keyboard.DOWN,
+            Phaser.Keyboard.SPACEBAR,
+          ]
+        );
+    },
+
     setLevel: function () {
+        this.walls = this.add.group();
+        this.walls.enableBody = true;
         
+        this.add.sprite(0, 0, 'wallV', 0, this.walls); // left wall
+        this.add.sprite(this.world.width - 20, 0, 'wallV', 0, this.walls); // right wall
+        this.add.sprite(0, 0, 'wallH', 0, this.walls); // UL
+        this.add.sprite(this.world.width - 200, 0, 'wallH', 0, this.walls); // UR
+        this.add.sprite(0, this.world.height - 20, 'wallH', 0, this.walls); // BL
+        this.add.sprite(this.world.width - 200, this.world.height - 20, 'wallH', 0, this.walls); // BR
+        this.add.sprite(-100, this.world.centerY, 'wallH', 0, this.walls); // MID L
+        this.add.sprite(this.world.width - 100, this.world.centerY, 'wallH', 0, this.walls); // MID R
+        
+        this.walls.setAll('body.immovable', true);
     },
 
 	update: function () {
 
 		//	Honestly, just about anything could go here. It's YOUR game after all. Eat your heart out!
-
+        this.playerInput();
         // face the arrow at the mouse position
         // the image of the arrow originally faced down, so some
         // math is needed to correct this. -1.57079633 radians is -90 degrees
-        this.pointyThing.rotation = this.physics.arcade.angleToPointer(this.pointyThing) - 1.57079633;
+        // this.pointyThing.rotation = this.physics.arcade.angleToPointer(this.pointyThing) - 1.57079633;
         // console.log(this.pointyThing.rotation);
 	},
+
+    playerInput: function () {
+        //left
+        if (this.cursor.left.isDown) {
+            this.player.body.velocity.x = -200;
+        }
+        // right
+        else if (this.cursor.right.isDown) {
+            this.player.body.velocity.x = 200;
+        } 
+        // no input
+        else {
+            this.player.body.velocity.x = 0;
+        }
+
+        // up
+        if (this.cursor.up.isDown && this.player.body.touching.down) {
+            // move the player upward (jump)
+            this.player.body.velocity.y = -320;
+        }
+    },
+
+    collisionUpdate: function () {
+        this.physics.arcade.collide(this.player, this.walls);
+    },
 
     fire: function () {},
 

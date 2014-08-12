@@ -1,0 +1,75 @@
+<!DOCTYPE HTML>
+<!-- this index is formatted for LOCAL FLASK SERVER -->
+<html>
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Discover Phaser!</title>
+
+    <!-- Bootstrap -->
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Game Font -->
+    <link href='http://fonts.googleapis.com/css?family=Audiowide' rel='stylesheet' type='text/css'>
+    <link href="/static/css/spritesheet_remix/style.css" rel="stylesheet">
+    <style>
+    body {
+      margin: 0 0 1px 0;
+      background: #333;
+    }
+    #gameContainer canvas{
+      margin: 0 auto;
+      padding: 0;
+      border: 0;
+    }
+    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<ul class="breadcrumb">
+    <li><a href="/">Game Development Studies</a></li>
+    <li><a href="#">Games</a></li>
+    <li class="active">Discover Phaser!</li>
+</ul>
+
+<div id="gameContainer"></div>
+
+</body>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/static/js/bootstrap.min.js"></script>
+<script src="/static/js/phaser.js"></script>
+<script src="/static/js/discover_phaser/boot.js"></script>
+<script src="/static/js/discover_phaser/preloader.js"></script>
+<script src="/static/js/discover_phaser/mainMenu.js"></script>
+<script src="/static/js/discover_phaser/game.js"></script>
+<script>
+window.onload = function() {
+
+  //  Create your Phaser game and inject it into the gameContainer div.
+  //  We did it in a window.onload event, but you can do it anywhere (requireJS load, anonymous function, jQuery dom ready, - whatever floats your boat)
+  var game = new Phaser.Game(
+    640,// * window.devicePixelRatio,  // width -- .devicePixelRatio covers retina displays
+    480,// * window.devicePixelRatio, // height
+    Phaser.AUTO,        // renderer
+    'gameContainer');   // DOM element to inject to
+
+  //  Add the States your game has.
+  //  You don't have to do this in the html, it could be done in your Boot state too, but for simplicity I'll keep it here.
+  game.state.add('Boot', BasicGame.Boot);
+  game.state.add('Preloader', BasicGame.Preloader);
+  game.state.add('MainMenu', BasicGame.MainMenu);
+  game.state.add('Game', BasicGame.Game);
+
+  //  Now start the Boot state.
+  game.state.start('Boot');
+};
+</script>
+</html>

@@ -32,7 +32,6 @@ function tick(e) {
     // don't update if paused
     if(!e.paused){
         updateActor();
-        renderActor();
         stage.update();
     }
 }
@@ -68,8 +67,12 @@ function updateLoad () {
     percentLoaded += .005;
     updateActor();
     if (percentLoaded >= 1) {
-        window.clearRequestInterval(loadInterval);
-        stage.removeChild(loaderBar);
+        // when load is complete
+        // window.clearRequestInterval(loadInterval);
+        // stage.removeChild(loaderBar);
+
+        // to start over
+        percentLoaded = 0;
     }
 }
 

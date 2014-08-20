@@ -64,7 +64,6 @@ function addActors() {
     var tri = new create.Shape();
     tri.graphics.beginStroke("#000");
     tri.graphics.beginFill("#00FF00");
-    console.log(stage);
     tri.graphics.moveTo(stage.canvas.clientWidth / 2, stage.canvas.clientHeight / 2)
         .lineTo(0, stage.canvas.clientHeight / 2)
         .lineTo(100, 100)

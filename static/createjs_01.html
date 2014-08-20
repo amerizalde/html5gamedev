@@ -12,15 +12,14 @@
             margin: 0 auto;
             overflow: hidden;
         }
+        canvas {
+            background-color: #880088;
+            border: 2px solid #88FF88;
+        }
         .container {
             display: block;
             clear: both;
             text-align: center;
-        }
-
-        canvas {
-            background-color: #880088;
-            border: 2px solid #88FF88;
         }
         </style>
     </head>
@@ -53,6 +52,14 @@
         <p>Keyboard Input.</p>
         <canvas id="level07" width="640" height="480"></canvas>
     </div>
+    <div class="container">
+        <p>DOM Elements rendered to canvas.</p>
+        <div id="instructions">
+            <h3>Game Instructions</h3>
+            <p><strong>Click</strong> on the <span style="color:red">RED</span> balloons as they fall from the sky </p>
+        </div>
+        <canvas id="level08" width="640" height="480"></canvas>
+    </div>
 </body>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="http://code.createjs.com/createjs-2013.12.12.min.js"></script>
@@ -64,5 +71,6 @@
 <script src="/static/js/createjs_proj/level05.js"></script>
 <script src="/static/js/createjs_proj/level06.js"></script>
 <script src="/static/js/createjs_proj/level07.js"></script>
+<script src="/static/js/createjs_proj/level08.js"></script>
 
 </html>

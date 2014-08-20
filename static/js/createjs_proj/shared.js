@@ -1,4 +1,20 @@
 create = createjs;
+const KEY_A = 65,
+      KEY_S = 83,
+      KEY_D = 68,
+      KEY_W = 87,
+      KEY_E = 69,
+      KEY_Q = 81,
+      KEY_F = 70,
+      KEY_Z = 90,
+      KEY_X = 88,
+      KEY_C = 67,
+      KEY_R = 82,
+      KEY_T = 84,
+      KEY_LEFT = 37,
+      KEY_UP = 38,
+      KEY_RIGHT = 39,
+      KEY_DOWN = 40;
 
 // requestAnimationFrame() shim by Paul Irish
 // http://paulirish.com/2011/requestanimationframe-for-smart-animating/

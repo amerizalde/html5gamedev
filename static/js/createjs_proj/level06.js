@@ -22,6 +22,16 @@ function setupStage() {
 
     stage.enableMouseOver();
 
+    var txt = new create.Text(
+        "Click and drag the bottom squares to the right slot.",
+        "20px Arial",
+        "#ff7700");
+    txt.textBaseline = "middle";
+    txt.textAlign = "center";
+    txt.x = stage.canvas.width / 2;
+    txt.y = stage.canvas.height / 2;
+    stage.addChild(txt);
+
     // create a Ticker that will call stage.update() around 60 times a second
     create.Ticker.setFPS(60);
     create.Ticker.setPaused(false);

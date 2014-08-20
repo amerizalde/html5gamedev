@@ -50,6 +50,7 @@ function addActors() {
 }
 
 function updateActor() {
+    // bounce off the walls!
     var nextX = circle.x + (speed * direction);
     if (nextX > stage.canvas.width - circle.radius) {
         nextX = stage.canvas.width - circle.radius;

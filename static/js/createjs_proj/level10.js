@@ -155,7 +155,7 @@ function buildPuck () {
     puck.velX = PUCK_SPEED;
     puck.velY = PUCK_SPEED;
     puck.isAlive = true;
-    stage.addChild(puck, 0);
+    stage.addChild(puck);
 }
 
 function setControls () {
@@ -192,8 +192,54 @@ function handleKeyUp (e) {
     }
 }
 
-function newLevel () {}
+function newLevel () {
+    var i, brick, freeLifeTxt;
+    var data = levels[level],
+        xPos = WALL_THICKNESS,
+        yPos = WALL_THICKNESS,
+        freeLife = Math.round(Math.random() *20),
+    paddleHits = 0;
+
+    shiftBricksDown();
+
+    for (i = 0; i < 20; i++) {
+        brick = new create.Shape();
+        brick.graphics.beginFill(i === freeLife ? '#009900' : data.color);
+        brick.graphics.drawRect(0, 0, 76, 20);
+        brick.graphics.endFill();
+        brick.width = 76;
+        brick.height = 20;
+        brick.x = xPos;
+        brick.y = yPos;
+        brick.points = data.points;
+        brick.freeLife = false;
+
+        bricks.push(brick);
+        stage.addChild(brick);
+
+        // add text into block position
+        if (i === freeLife) {
+            freeLifeTxt = new create.Text('1UP', '12px Times', '#fff');
+            freeLifeTxt.x = brick.x + (brick.width / 2);
+            freeLifeTxt.y = brick.y + 4;
+            freeLifeTxt.width = brick.width;
+            freeLifeTxt.textAlign = 'center';
+            brick.freeLife = freeLifeTxt;
+            stage.addChild(freeLifeTxt);
+        }
+        if (xPos > (brick.width * 10)) {
+            xPos = WALL_THICKNESS;
+            yPos += brick.height;
+        }
+        level++;
+        if (level === levels.length) {
+            level--;
+        }
+    }
+
+}
 function resetGame () {}
+function shiftBricksDown () {}
 
 return init();
 })();

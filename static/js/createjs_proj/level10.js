@@ -227,6 +227,7 @@ function newLevel () {
             brick.freeLife = freeLifeTxt;
             stage.addChild(freeLifeTxt);
         }
+        xPos += 76;
         if (xPos > (brick.width * 10)) {
             xPos = WALL_THICKNESS;
             yPos += brick.height;
@@ -236,10 +237,20 @@ function newLevel () {
             level--;
         }
     }
-
 }
+
+function shiftBricksDown () {
+    var i, brick;
+    var shiftHeight = 80,
+        len = bricks.length;
+    for (i = 0; i < len; i++) {
+        brick = bricks[i];
+        brick.y += shiftHeight;
+        if (brick.freeLife) brick.freeLife.y += shiftHeight;
+    }
+}
+
 function resetGame () {}
-function shiftBricksDown () {}
 
 return init();
 })();

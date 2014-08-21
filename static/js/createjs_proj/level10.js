@@ -68,6 +68,15 @@ function setupStage() {
     create.Ticker.addEventListener("tick", tick);
 }
 
+function tick(e) {
+    // don't update if paused
+    if(!e.paused){
+        runGame();
+        stage.update();
+    }
+}
+
+// ------- SETUP functions ---------
 function newGame () {
     buildWalls();
     buildMessageBoard();
@@ -77,13 +86,6 @@ function newGame () {
     newLevel();
     newLevel();
     console.log("debug: setup complete");
-}
-
-function tick(e) {
-    // don't update if paused
-    if(!e.paused){
-        stage.update();
-    }
 }
 
 function buildWalls () {
@@ -250,7 +252,30 @@ function shiftBricksDown () {
     }
 }
 
+// ------ LOOP functions -------
+function runGame () {
+    update();
+    render();
+    evalPuck();
+    evalGame();
+}
+
+function update () {
+    updatePaddle();
+    updatePuck();
+    checkPaddle();
+    checkBricks();
+}
+
+function render () {}
+function evalPuck () {}
+function evalGame () {}
 function resetGame () {}
+
+function updatePaddle () {}
+function updatePuck () {}
+function checkPaddle () {}
+function checkBricks () {}
 
 return init();
 })();
